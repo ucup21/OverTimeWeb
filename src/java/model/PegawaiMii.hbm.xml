@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2018 1:57:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.PegawaiMii" table="PEGAWAI_MII" schema="HR" optimistic-lock="version">
+        <id name="nip" type="long">
+            <column name="NIP" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="jabatan" class="model.Jabatan" fetch="select">
+            <column name="KD_JABATAN" length="5" not-null="true" />
+        </many-to-one>
+        <property name="nama" type="string">
+            <column name="NAMA" length="20" />
+        </property>
+        <property name="jk" type="string">
+            <column name="JK" length="10" />
+        </property>
+        <property name="alamat" type="string">
+            <column name="ALAMAT" length="30" />
+        </property>
+        <property name="tglLahir" type="date">
+            <column name="TGL_LAHIR" length="7" />
+        </property>
+        <property name="tmptLahir" type="string">
+            <column name="TMPT_LAHIR" length="30" />
+        </property>
+        <set name="detailLemburs" table="DETAIL_LEMBUR" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="NIP" precision="10" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="model.DetailLembur" />
+        </set>
+    </class>
+</hibernate-mapping>

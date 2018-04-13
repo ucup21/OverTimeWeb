@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2018 1:57:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.JenisLembur" table="JENIS_LEMBUR" schema="HR" optimistic-lock="version">
+        <id name="kdLembur" type="string">
+            <column name="KD_LEMBUR" length="5" />
+            <generator class="assigned" />
+        </id>
+        <property name="lamaLembur" type="java.lang.Byte">
+            <column name="LAMA_LEMBUR" precision="2" scale="0" />
+        </property>
+        <set name="details" table="DETAIL" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="KD_LEMBUR" length="5" not-null="true" />
+            </key>
+            <one-to-many class="model.Detail" />
+        </set>
+        <set name="detailLemburs" table="DETAIL_LEMBUR" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="KD_LEMBUR" length="5" not-null="true" />
+            </key>
+            <one-to-many class="model.DetailLembur" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 13, 2018 1:57:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Detail" table="DETAIL" schema="HR" optimistic-lock="version">
+        <composite-id name="id" class="model.DetailId">
+            <key-property name="kdJabatan" type="string">
+                <column name="KD_JABATAN" length="5" />
+            </key-property>
+            <key-property name="kdLembur" type="string">
+                <column name="KD_LEMBUR" length="5" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="jabatan" class="model.Jabatan" update="false" insert="false" fetch="select">
+            <column name="KD_JABATAN" length="5" not-null="true" />
+        </many-to-one>
+        <many-to-one name="jenisLembur" class="model.JenisLembur" update="false" insert="false" fetch="select">
+            <column name="KD_LEMBUR" length="5" not-null="true" />
+        </many-to-one>
+        <property name="tarif" type="java.lang.Long">
+            <column name="TARIF" precision="10" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
