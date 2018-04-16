@@ -46,10 +46,15 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
     <property name="hibernate.connection.username">system</property>
     <property name="hibernate.connection.password">26september</property>
-    <mapping resource="model/JenisLembur.hbm.xml"/>
-    <mapping resource="model/Jabatan.hbm.xml"/>
-    <mapping resource="model/Detail.hbm.xml"/>
-    <mapping resource="model/PegawaiMii.hbm.xml"/>
-    <mapping resource="model/DetailLembur.hbm.xml"/>
+    <property name="hibernate.connection.autocommit">true</property>
+    <property name="hibernate.default_schema">hr</property>    
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
+    <property name="current_session_context_class">thread</property>
+    <mapping class="entities.Detail"/>
+    <mapping class="entities.DetailLembur"/>
+    <mapping class="entities.DetailPK"/>
+    <mapping class="entities.Jabatan"/>
+    <mapping class="entities.JenisLembur"/>
+    <mapping class="entities.PegawaiMii"/>
   </session-factory>
 </hibernate-configuration>

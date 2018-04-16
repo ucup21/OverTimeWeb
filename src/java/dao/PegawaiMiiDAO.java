@@ -5,12 +5,12 @@
  */
 package dao;
 
-import model.PegawaiMii;
+import entities.PegawaiMii;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import model.HibernateUtil;
+import tools.HibernateUtil;
 
 /**
  *

@@ -5,14 +5,14 @@
  */
 package dao;
 
-import model.Detail;
-import model.DetailId;
+import entities.Detail;
+import entities.DetailPK;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import model.HibernateUtil;
+import tools.HibernateUtil;
 
 /**
  *
