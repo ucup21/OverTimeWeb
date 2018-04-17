@@ -11,33 +11,69 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Daftar Pegawai</title>
+        <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+        <title>Daftar Jabatan</title>
     </head>
     <body>
-        <h1>Tabel Jabatan</h1>
-         <table border="1">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Kode Jabatan</th>
-                    <th>Nama Jabatan</th>
+        <div class="container">
+            <h1 align="center">Tabel Jabatan</h1>
+            </br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><center>No.</center></th>
+                <th><center>Kode Jabatan</center></th>
+                <th><center>Nama Jabatan</center></th>
+                <th colspan="2"><center>Aksi</center></th>
                 </tr>
-            </thead>
-            <%
-//                List<Object> datas = new DepartmentsDAO().getAll();
-                List<Object> datas = (List<Object>) session.getAttribute("dataJabatan");
-                int i = 1;
-                for (Object data : datas) {
-                    Jabatan jabatan = (Jabatan) data;
-            %>
-            <tbody>
-                <tr>
-                    <td><%= i++%></td>
-                    <td><%= jabatan.getKdJabatan() %></td>                    
-                    <td><%= jabatan.getNamaJabatan() %></td>
+                </thead>
+                <%
+                    //                List<Object> datas = new DepartmentsDAO().getAll();
+                    List<Object> datas = (List<Object>) session.getAttribute("dataJabatan");
+                    int i = 1;
+                    for (Object data : datas) {
+                        Jabatan jabatan = (Jabatan) data;
+                %>
+                <tbody>
+                    <tr>
+                        <td><center><%= i++%></center></td>
+                <td><%= jabatan.getKdJabatan()%></td>                    
+                <td><%= jabatan.getNamaJabatan()%></td>
+                <td><center><a href="jabatanGetById?id=<%= jabatan.getKdJabatan() %>">Update</a></center></td>
+            <td><center><a href="jabatanDelete?id=<%= jabatan.getKdJabatan() %>">Delete</a></center></td>
                 </tr>
-                <% } %>
-            </tbody>
-        </table>
-    </body>
+                <% }%>
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+            
+            <form action="jabatanInsert" method="POST">                
+                <div class="col-md-6">
+                    <div class="row">
+                        <div  class="col-md-12">
+                            <div class="form-group">
+                                <label for="kdJabatan">Kode Jabatan</label>
+                                <input type="text" class="form-control" name="kdJabatan" placeholder="Masukkan kode jabatan" value="">
+                            </div>
+                        </div>
+                        <div  class="col-md-12">
+                            <div class="form-group">
+                                <label for="nmJabatan">Nama Jabatan</label>
+                                <input type="text" class="form-control" name="nmJabatan" placeholder="Masukan nama jabatan" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Simpan" class="btn btn-primary">
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
 </html>

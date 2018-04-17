@@ -55,5 +55,4 @@ public class JenisLemburDAO implements InterfaceDAO{
     public Object getById(String id) {
         return fdao.getById("FROM JenisLembur where kd_lembur='" + id + "'");
     }
-
 }

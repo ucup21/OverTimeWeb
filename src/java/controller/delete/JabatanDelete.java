@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.delete;
 
 import dao.JabatanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hp
  */
-@WebServlet(name = "JabatanServlet", urlPatterns = {"/jabatanServlet"})
-public class JabatanServlet extends HttpServlet {
+@WebServlet(name = "JabatanDelete", urlPatterns = {"/jabatanDelete"})
+public class JabatanDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,17 +35,18 @@ public class JabatanServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = null;
-        HttpSession session = request.getSession(true);
+        String id = request.getParameter("id");;
+        RequestDispatcher dis = null;
+        String pesan = "gagal";
+        JabatanDAO jdao  = new JabatanDAO();
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
-            List<Object> datas = new JabatanDAO().getAll();
-            if (session.getAttribute("pesan") != null) {
-                out.print(session.getAttribute("pesan") + "<br>");
-                session.removeAttribute("pesan");
+            if (jdao.delete(id)) {
+                pesan = "Berhasil menghapus data ID :" + id;
             }
-            session.setAttribute("dataJabatan", datas);
-            dispatcher = request.getRequestDispatcher("view/jabatan.jsp");
-            dispatcher.include(request, response);
+            session.setAttribute("pesan", pesan);
+            dis = request.getRequestDispatcher("jabatanServlet");
+            dis.include(request, response);
         }
     }
 
