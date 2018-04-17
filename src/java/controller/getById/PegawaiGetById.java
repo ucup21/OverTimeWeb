@@ -5,8 +5,8 @@
  */
 package controller.getById;
 
-import dao.JabatanDAO;
-import entities.Jabatan;
+import dao.PegawaiMiiDAO;
+import entities.PegawaiMii;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hp
  */
-@WebServlet(name = "JabatanGetById", urlPatterns = {"/jabatanGetById"})
-public class JabatanGetById extends HttpServlet {
+@WebServlet(name = "PegawaiGetById", urlPatterns = {"/pegawaiGetById"})
+public class PegawaiGetById extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,14 +37,14 @@ public class JabatanGetById extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");
-        RequestDispatcher dis = null;
+        RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
-            Jabatan jabatan = (Jabatan) new JabatanDAO().getById(id);
-            session.setAttribute("jab", jabatan);
-            out.print("<font color=\"red\"> Update " + jabatan.getNamaJabatan() + "</font>");
-            dis = request.getRequestDispatcher("view/update/jabatanUpdate.jsp");
-            dis.include(request, response);
+            PegawaiMii mii = (PegawaiMii) new PegawaiMiiDAO().getById(id);
+            session.setAttribute("pegawai", mii);
+            out.print("<font color=\"red\"> Update "+ mii.getNip()+"</font>");
+            dispatcher = request.getRequestDispatcher("view/update/pegawaiUpdate.jsp");
+            dispatcher.include(request, response);
         }
     }
 

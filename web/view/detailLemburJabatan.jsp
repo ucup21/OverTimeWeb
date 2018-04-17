@@ -15,6 +15,21 @@
         <title>Detail Lembur Jabatan</title>
     </head>
     <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" >Over Time</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="pegawaiServlet">Pegawai</a></li>
+                    <li><a href="jabatanServlet">Jabatan</a></li>
+                    <li><a href="jenisLemburServlet">Jenis Lembur</a></li>
+                    <li><a href="detailLemburServlet">Detail Lembur</a></li>
+                    <li class="active"><a href="detailJabatanLemburServlet">Detail Jabatan Lembur</a></li>
+                </ul>                    
+            </div>
+        </nav>
         <div class="container">
             <h1 align="center">Detail Lembur Jabatan</h1>
             <br>

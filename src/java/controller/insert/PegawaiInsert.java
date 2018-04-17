@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.getById;
+package controller.insert;
 
-import dao.JabatanDAO;
+import dao.PegawaiMiiDAO;
 import entities.Jabatan;
+import entities.PegawaiMii;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -15,14 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author hp
  */
-@WebServlet(name = "JabatanGetById", urlPatterns = {"/jabatanGetById"})
-public class JabatanGetById extends HttpServlet {
+@WebServlet(name = "PegawaiInsert", urlPatterns = {"/pegawaiInsert"})
+public class PegawaiInsert extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,15 +36,31 @@ public class JabatanGetById extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("id");
-        RequestDispatcher dis = null;
-        HttpSession session = request.getSession();
+        String nip = request.getParameter("nip");
+        String nmJabatan = request.getParameter("nmJabatan");
+        String nama = request.getParameter("nmLengkap");
+        String jk = request.getParameter("jk");
+        String alamat = request.getParameter("alamat");
+        String tglLahir = request.getParameter("tglLahir");
+        String tmptLahir = request.getParameter("tmptLahir");
+        RequestDispatcher dispatcher = null;
+        String pesan = "gagal";
+        PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
         try (PrintWriter out = response.getWriter()) {
-            Jabatan jabatan = (Jabatan) new JabatanDAO().getById(id);
-            session.setAttribute("jab", jabatan);
-            out.print("<font color=\"red\"> Update " + jabatan.getNamaJabatan() + "</font>");
-            dis = request.getRequestDispatcher("view/update/jabatanUpdate.jsp");
-            dis.include(request, response);
+            PegawaiMii mii = new PegawaiMii();
+            mii.setNip(Long.valueOf(nip));
+            mii.setKdJabatan(new Jabatan(nmJabatan));
+            mii.setNama(nama);
+            mii.setJk(jk);
+            mii.setAlamat(alamat);
+            mii.setTglLahir(new java.sql.Date(Long.valueOf(tglLahir)));            
+            mii.setTmptLahir(tmptLahir);
+            if (miiDAO.insert(mii)) {
+                pesan = "Berhasil mengubah data dengan ID :" + mii.getNip();
+            }
+            out.print(pesan);
+            dispatcher = request.getRequestDispatcher("pegawaiServlet");
+            dispatcher.include(request, response);
         }
     }
 

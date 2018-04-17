@@ -70,6 +70,10 @@ public class PegawaiMiiDAO implements InterfaceDAO{
         return fdao.getAll("FROM PegawaiMii ORDER BY nip");
     }
     
+    public int getAutoID(){
+        return (int) fdao.getById("SELECT max(nip)+1 FROM PegawaiMii");
+    }
+    
 }
 
 

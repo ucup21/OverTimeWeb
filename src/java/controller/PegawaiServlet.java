@@ -40,9 +40,13 @@ public class PegawaiServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
             List<Object> datas = new PegawaiMiiDAO().getAll();
+            if (session.getAttribute("pesan") != null) {
+                out.print(session.getAttribute("pesan") + "<br>");
+                session.removeAttribute("pesan");
+            }
             session.setAttribute("dataPegawai", datas);
             dispatcher = request.getRequestDispatcher("view/pegawai.jsp");
-            dispatcher.forward(request, response);
+            dispatcher.include(request, response);
         }
     }
 

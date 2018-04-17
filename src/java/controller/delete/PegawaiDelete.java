@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.getById;
+package controller.delete;
 
-import dao.JabatanDAO;
-import entities.Jabatan;
+import dao.PegawaiMiiDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -21,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hp
  */
-@WebServlet(name = "JabatanGetById", urlPatterns = {"/jabatanGetById"})
-public class JabatanGetById extends HttpServlet {
+@WebServlet(name = "PegawaiDelete", urlPatterns = {"/pegawaiDelete"})
+public class PegawaiDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,14 +36,18 @@ public class JabatanGetById extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");
-        RequestDispatcher dis = null;
+        RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
+        PegawaiMiiDAO pmdao = new PegawaiMiiDAO();
+        String pesan = "Gagal Menghapus";
         try (PrintWriter out = response.getWriter()) {
-            Jabatan jabatan = (Jabatan) new JabatanDAO().getById(id);
-            session.setAttribute("jab", jabatan);
-            out.print("<font color=\"red\"> Update " + jabatan.getNamaJabatan() + "</font>");
-            dis = request.getRequestDispatcher("view/update/jabatanUpdate.jsp");
-            dis.include(request, response);
+            if (pmdao.delete(id)) {
+                pesan ="Behasil Dihapus ID "+ id;
+            }
+            out.print(pesan);
+            session.setAttribute("pesan", pesan);
+            dispatcher = request.getRequestDispatcher("pegawaiServlet");
+            dispatcher.include(request, response);
         }
     }
 
