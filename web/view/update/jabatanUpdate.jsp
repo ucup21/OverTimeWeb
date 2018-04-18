@@ -14,6 +14,21 @@
         <title>Jabatan Update</title>
     </head>
     <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" >Over Time</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="pegawaiServlet">Pegawai</a></li>
+                    <li class="active"><a href="jabatanServlet">Jabatan</a></li>
+                    <li><a href="jenisLemburServlet">Jenis Lembur</a></li>
+                    <li><a href="detailLemburServlet">Detail Lembur</a></li>
+                    <li><a href="detailJabatanLemburServlet">Detail Jabatan Lembur</a></li>
+                </ul>                    
+            </div>
+        </nav>
         <div class="container">
             <form action="jabatanUpdate" method="POST">
                 <% Jabatan jab = (Jabatan) session.getAttribute("jab");%>
@@ -22,7 +37,7 @@
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="kdJabatan">Kode Jabatan</label>
-                                <input type="text" class="form-control" name="kdJabatan" placeholder="Masukkan kode jabatan" value="<%= jab.getKdJabatan()%>">
+                                <input type="text" readonly class="form-control" name="kdJabatan" placeholder="Masukkan kode jabatan" value="<%= jab.getKdJabatan()%>">
                             </div>
                         </div>
                         <div  class="col-md-12">

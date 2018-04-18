@@ -40,6 +40,7 @@
                         <th><center>Kode Jabatan</center></th>
                         <th><center>Kode Lembur</center></th>
                         <th><center>Tarif</center></th>
+                        <th colspan="2"><center>Aksi</center></th>
                     </tr>
                 </thead>
                 <%
@@ -55,6 +56,8 @@
                         <td><%= detail.getJabatan().getNamaJabatan()%></td>                    
                         <td><center><%= detail.getJenisLembur().getLamaLembur()%></center></td>
                         <td><center><%= detail.getTarif()%></center></td>
+                        <td><center><a href="jenisLemburGetById?id=<% %>">Update</a></center></td>
+                        <td><center><a href="jenisLemburDelete?id=<% %>">Delete</a></center></td>
                     </tr>
                     <% }%>
                 </tbody>

@@ -54,8 +54,8 @@
                         <td><%= i%></td>
                         <td><%= j.getKdLembur()%></td>
                         <td><%= j.getLamaLembur()%></td>
-                        <td><center><a href="???=">Update</a></center></td>
-                        <td><center><a href="???=">Delete</a></center></td>
+                        <td><center><a href="jenisLemburGetById?id=<%= j.getKdLembur()%>">Update</a></center></td>
+                        <td><center><a href="jenisLemburDelete?id=<%= j.getKdLembur()%>">Delete</a></center></td>
                     </tr>
                 </tbody>
                 <% i++;
@@ -63,19 +63,19 @@
             </table>
             <br>
             <br>
-            <form>
+            <form action="jenisLemburInsert" method="POST">
                 <div class="col-md-6">
                     <div class="row">
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="kdJenisLembur">Kode Jenis Lembur</label>
-                                <input type="text" class="form-control" id="kdJenisLembur" placeholder="Masukkan kode jenis lembur">
+                                <input type="text" class="form-control" name="kdJenisLembur" placeholder="Masukkan kode jenis lembur">
                             </div>
                         </div>
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="lamaLembur">Lama Lembur</label>
-                                <input type="text" class="form-control" id="lamaLembur" placeholder="Masukan lama lembur">
+                                <input type="text" class="form-control" name="lamaLembur" placeholder="Masukan lama lembur">
                             </div>
                         </div>
                     </div>

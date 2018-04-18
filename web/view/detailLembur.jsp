@@ -40,6 +40,7 @@
                     <th>Lama Lembur</th>
                     <th>Nama Pegawai</th>
                     <th>Tanggal Lembur</th>
+                    <th colspan="2">Aksi</th>
                 </tr>
             </thead>
             <%
@@ -56,6 +57,8 @@
                     <td><%= dl.getKdLembur().getLamaLembur()%></td>
                     <td><%= dl.getNip().getNama()%></td>
                     <td><%= dl.getTglLembur()%></td>
+                    <td><center><a href="jenisLemburGetById?id=<%%>">Update</a></center></td>
+                    <td><center><a href="jenisLemburDelete?id=<%%>">Delete</a></center></td>
                 </tr>
             </tbody>
             <% i++;

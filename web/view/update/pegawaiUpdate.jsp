@@ -42,7 +42,7 @@
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="nip">Nomor Induk Pegawai</label>
-                                <input type="text" class="form-control" name="nip" placeholder="Masukkan nip Anda" value="<%= mii.getNip()%>">
+                                <input type="text" readonly class="form-control" name="nip" placeholder="Masukkan nip Anda" value="<%= mii.getNip()%>">
                             </div>
                         </div>
                         <div  class="col-md-12">
