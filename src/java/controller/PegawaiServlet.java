@@ -38,12 +38,14 @@ public class PegawaiServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
+        PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
         try (PrintWriter out = response.getWriter()) {
             List<Object> datas = new PegawaiMiiDAO().getAll();
             if (session.getAttribute("pesan") != null) {
                 out.print(session.getAttribute("pesan") + "<br>");
                 session.removeAttribute("pesan");
             }
+            session.setAttribute("autoID", miiDAO.getAutoID());
             session.setAttribute("dataPegawai", datas);
             dispatcher = request.getRequestDispatcher("view/pegawai.jsp");
             dispatcher.include(request, response);

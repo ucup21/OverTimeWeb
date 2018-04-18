@@ -3,15 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.update;
+package controller.insert;
 
-import dao.PegawaiMiiDAO;
+import dao.DetailLemburDAO;
+import dao.JabatanDAO;
+import entities.DetailLembur;
 import entities.Jabatan;
+import entities.JenisLembur;
 import entities.PegawaiMii;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,10 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author hp
+ * @author Asus
  */
-@WebServlet(name = "PegawaiUpdate", urlPatterns = {"/pegawaiUpdate"})
-public class PegawaiUpdate extends HttpServlet {
+@WebServlet(name = "DetailLemburInsert", urlPatterns = {"/detailLemburInsert"})
+public class DetailLemburInsert extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,37 +42,30 @@ public class PegawaiUpdate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String nip = request.getParameter("nip");
-        String nmJabatan = request.getParameter("nmJabatan");
-        String nama = request.getParameter("nmLengkap");
-        String jk = request.getParameter("jk");
-        String alamat = request.getParameter("alamat");
-        String tglLahir = request.getParameter("tglLahir");
-        String tmptLahir = request.getParameter("tmptLahir");
+        String KdDetailLembur = request.getParameter("kdDetailLembur");
+        String LamaLembur = request.getParameter("lamaLembur");
+        String Nama = request.getParameter("nmPegawai");
+        String TglLembur = request.getParameter("tglLembur");
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
+            date = new SimpleDateFormat("yyyy-mm-dd").parse(TglLembur);
         } catch (Exception e) {
         }
-        RequestDispatcher dispatcher = null;
+        RequestDispatcher dis = null;
         String pesan = "gagal";
-        PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
+        DetailLemburDAO dAO = new DetailLemburDAO();
         try (PrintWriter out = response.getWriter()) {
-
-            PegawaiMii mii = new PegawaiMii();
-            mii.setNip(Long.valueOf(nip));
-            mii.setKdJabatan(new Jabatan(nmJabatan));
-            mii.setNama(nama);
-            mii.setJk(jk);
-            mii.setAlamat(alamat);
-            mii.setTglLahir(date);            
-            mii.setTmptLahir(tmptLahir);
-            if (miiDAO.update(mii)) {
-                pesan = "Berhasil mengubah data dengan ID :" + mii.getNip();
+            DetailLembur dl = new DetailLembur();
+            dl.setKdDetailLembur(KdDetailLembur);
+            dl.setKdLembur(new JenisLembur(LamaLembur));
+            dl.setNip(new PegawaiMii(Long.parseLong(Nama)));
+            dl.setTglLembur(date);
+            if (dAO.insert(dl)) {
+                pesan = "Berhasil menambah data dengan ID :" + dl.getKdDetailLembur();
             }
             out.print(pesan);
-            dispatcher = request.getRequestDispatcher("pegawaiServlet");
-            dispatcher.include(request, response);
+            dis = request.getRequestDispatcher("detailLemburServlet");
+            dis.include(request, response);
         }
     }
 

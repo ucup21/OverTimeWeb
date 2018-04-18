@@ -66,31 +66,31 @@
         </table>
             <br>
             <br>
-            <form>
+            <form action="detailLemburInsert" method="post">
                 <div class="col-md-6">
                     <div class="row">
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="kdDetailLembur">Kode Detail Lembur</label>
-                                <input type="text" class="form-control" id="kdDetailLembur" placeholder="Masukkan kode detail lembur">
+                                <input type="text" class="form-control" name="kdDetailLembur" placeholder="Masukkan kode detail lembur">
                             </div>
                         </div>
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="lamaLembur">Lama Lembur</label>
-                                <input type="text" class="form-control" id="lamaLembur" placeholder="Masukan lama lembur">
+                                <input type="text" class="form-control" name="lamaLembur" placeholder="Masukan lama lembur">
                             </div>
                         </div>
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="nmPegawai">Nama Pegawai</label>
-                                <input type="text" class="form-control" id="nmPegawai" placeholder="Masukan nama Anda">
+                                <input type="text" class="form-control" name="nmPegawai" placeholder="Masukan nama Anda">
                             </div>
                         </div>
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="tglLembur">Tanggal Lembur</label>
-                                <input type="date" class="form-control" id="tglLembur" placeholder="Masukan tanggal lembur">
+                                <input type="date" class="form-control" name="tglLembur" placeholder="Masukan tanggal lembur">
                             </div>
                         </div>
                     </div>

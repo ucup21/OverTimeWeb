@@ -10,12 +10,16 @@ import entities.Jabatan;
 import entities.PegawaiMii;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -43,6 +47,11 @@ public class PegawaiInsert extends HttpServlet {
         String alamat = request.getParameter("alamat");
         String tglLahir = request.getParameter("tglLahir");
         String tmptLahir = request.getParameter("tmptLahir");
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
+        } catch (Exception ex) {
+        }
         RequestDispatcher dispatcher = null;
         String pesan = "gagal";
         PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
@@ -53,10 +62,10 @@ public class PegawaiInsert extends HttpServlet {
             mii.setNama(nama);
             mii.setJk(jk);
             mii.setAlamat(alamat);
-            mii.setTglLahir(new java.sql.Date(Long.valueOf(tglLahir)));            
+            mii.setTglLahir(date);            
             mii.setTmptLahir(tmptLahir);
             if (miiDAO.insert(mii)) {
-                pesan = "Berhasil mengubah data dengan ID :" + mii.getNip();
+                pesan = "Berhasil menambah data dengan ID :" + mii.getNip();
             }
             out.print(pesan);
             dispatcher = request.getRequestDispatcher("pegawaiServlet");

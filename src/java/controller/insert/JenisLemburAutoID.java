@@ -3,28 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.update;
+package controller.insert;
 
-import dao.PegawaiMiiDAO;
-import entities.Jabatan;
-import entities.PegawaiMii;
+import dao.JenisLemburDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author hp
+ * @author Asus
  */
-@WebServlet(name = "PegawaiUpdate", urlPatterns = {"/pegawaiUpdate"})
-public class PegawaiUpdate extends HttpServlet {
+@WebServlet(name = "JenisLemburAutoID", urlPatterns = {"/jenisLemburAutoID"})
+public class JenisLemburAutoID extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,37 +35,13 @@ public class PegawaiUpdate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String nip = request.getParameter("nip");
-        String nmJabatan = request.getParameter("nmJabatan");
-        String nama = request.getParameter("nmLengkap");
-        String jk = request.getParameter("jk");
-        String alamat = request.getParameter("alamat");
-        String tglLahir = request.getParameter("tglLahir");
-        String tmptLahir = request.getParameter("tmptLahir");
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
-        } catch (Exception e) {
-        }
-        RequestDispatcher dispatcher = null;
-        String pesan = "gagal";
-        PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
+        HttpSession session = request.getSession();
+        RequestDispatcher dis = null;
+        JenisLemburDAO jldao = new JenisLemburDAO();
         try (PrintWriter out = response.getWriter()) {
-
-            PegawaiMii mii = new PegawaiMii();
-            mii.setNip(Long.valueOf(nip));
-            mii.setKdJabatan(new Jabatan(nmJabatan));
-            mii.setNama(nama);
-            mii.setJk(jk);
-            mii.setAlamat(alamat);
-            mii.setTglLahir(date);            
-            mii.setTmptLahir(tmptLahir);
-            if (miiDAO.update(mii)) {
-                pesan = "Berhasil mengubah data dengan ID :" + mii.getNip();
-            }
-            out.print(pesan);
-            dispatcher = request.getRequestDispatcher("pegawaiServlet");
-            dispatcher.include(request, response);
+            session.setAttribute("autoID", jldao.getAutoID());
+            dis = request.getRequestDispatcher("view/jenisLembur.jsp");
+            dis.forward(request, response);
         }
     }
 

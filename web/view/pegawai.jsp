@@ -15,6 +15,7 @@
         <title>Daftar Pegawai</title>
     </head>
     <body>
+        <% Long autoId = (Long) session.getAttribute("autoID"); %>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -79,7 +80,7 @@
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="nip">Nomor Induk Pegawai</label>
-                                <input type="text" class="form-control" name="nip" placeholder="Masukkan nip Anda" value="">
+                                <input type="text" class="form-control" name="nip" placeholder="Masukkan nip Anda" value="<%= autoId %>">
                             </div>
                         </div>
                         <div  class="col-md-12">

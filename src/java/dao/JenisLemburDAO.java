@@ -43,7 +43,7 @@ public class JenisLemburDAO implements InterfaceDAO{
 
     @Override
     public List<Object> getAll() {
-        return fdao.getAll("FROM JenisLembur");
+        return fdao.getAll("FROM JenisLembur order by kd_lembur");
     }
 
     @Override
@@ -54,5 +54,9 @@ public class JenisLemburDAO implements InterfaceDAO{
     @Override
     public Object getById(String id) {
         return fdao.getById("FROM JenisLembur where kd_lembur='" + id + "'");
+    }
+    
+    public String getAutoID(){
+        return (String) fdao.getById("SELECT CONCAT('LB',LPAD((TO_NUMBER(SUBSTR(MAX(kd_lembur),3,3))+1),3, '0')) FROM JenisLembur");
     }
 }

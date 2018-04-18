@@ -15,6 +15,7 @@
         <title>Jenis Lembur</title>
     </head>
     <body>
+        <% String autoId = (String) session.getAttribute("autoID"); %>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -69,7 +70,7 @@
                         <div  class="col-md-12">
                             <div class="form-group">
                                 <label for="kdJenisLembur">Kode Jenis Lembur</label>
-                                <input type="text" class="form-control" name="kdJenisLembur" placeholder="Masukkan kode jenis lembur">
+                                <input type="text" class="form-control" name="kdJenisLembur" placeholder="Masukkan kode jenis lembur" value="<%= autoId %>">
                             </div>
                         </div>
                         <div  class="col-md-12">
