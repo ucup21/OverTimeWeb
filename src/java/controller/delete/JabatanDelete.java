@@ -37,14 +37,17 @@ public class JabatanDelete extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");;
         RequestDispatcher dis = null;
-        String pesan = "gagal";
-        JabatanDAO jdao  = new JabatanDAO();
+
+        JabatanDAO jdao = new JabatanDAO();
         HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             if (jdao.delete(id)) {
-                pesan = "Berhasil menghapus data ID :" + id;
+                String berhasil = "Berhasil menghapus data ID :" + id;
+                session.setAttribute("berhasil", berhasil);
+            } else {
+                String gagal = "Gagal Menghapus";
+                session.setAttribute("gagal", gagal);
             }
-            session.setAttribute("pesan", pesan);
             dis = request.getRequestDispatcher("jabatanServlet");
             dis.include(request, response);
         }

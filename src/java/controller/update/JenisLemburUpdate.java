@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,16 +39,19 @@ public class JenisLemburUpdate extends HttpServlet {
         String kdJenisLembur = request.getParameter("kdJenisLembur");
         String lamaLembur = request.getParameter("lamaLembur");
         RequestDispatcher dis = null;
-        String pesan = "gagal";
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             JenisLembur jenisLembur = new JenisLembur();
             jenisLembur.setKdLembur(kdJenisLembur);
             jenisLembur.setLamaLembur(Short.valueOf(lamaLembur));
             JenisLemburDAO aO = new JenisLemburDAO();
             if (aO.update(jenisLembur)) {
-                pesan = "Berhasil mengubah data dengan ID :" + jenisLembur.getKdLembur();
+                String berhasil = "Berhasil mengubah data dengan ID :" + jenisLembur.getKdLembur();
+                session.setAttribute("berhasil", berhasil);
+            }else {
+                String gagal = "Gagal mengubah";
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
             dis = request.getRequestDispatcher("jenisLemburServlet");
             dis.include(request, response);
         }

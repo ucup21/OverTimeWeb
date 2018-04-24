@@ -40,12 +40,15 @@ public class JenisLemburServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         JenisLemburDAO jldao = new JenisLemburDAO();
         try (PrintWriter out = response.getWriter()) {
-            List<Object> datas = new JenisLemburDAO().getAll();
-            if (session.getAttribute("pesan") != null) {
-                out.print(session.getAttribute("pesan") + "<br>");
-                session.removeAttribute("pesan");
+            if (session.getAttribute("login") == null) {
+                response.sendRedirect("index.jsp");
             }
-            
+            List<Object> datas = new JenisLemburDAO().getAll();
+//            if (session.getAttribute("pesan") != null) {
+//                out.print(session.getAttribute("pesan") + "<br>");
+//                session.removeAttribute("pesan");
+//            }
+//            
             session.setAttribute("autoID", jldao.getAutoID());
             session.setAttribute("dataJenisLembur", datas);
             dispatcher = request.getRequestDispatcher("view/jenisLembur.jsp");

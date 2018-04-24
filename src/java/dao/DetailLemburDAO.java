@@ -56,5 +56,10 @@ public class DetailLemburDAO implements InterfaceDAO {
     public Object getById(String id) {
         return fdao.getById("from DetailLembur where KD_DETAIL_LEMBUR = '" + id + "'");
     }
+    
+    public String getAutoID()
+    {
+        return (String) fdao.getById("SELECT CONCAT('DL',LPAD((TO_NUMBER(SUBSTR(MAX(KD_DETAIL_LEMBUR),3,3))+1),3,'0')) FROM DetailLembur");
+    }
 
 }

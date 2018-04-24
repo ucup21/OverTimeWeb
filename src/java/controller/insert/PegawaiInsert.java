@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 
 /**
@@ -41,7 +42,7 @@ public class PegawaiInsert extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nip = request.getParameter("nip");
-        String nmJabatan = request.getParameter("nmJabatan");
+        String nmJabatan = request.getParameter("cmbJabatan");
         String nama = request.getParameter("nmLengkap");
         String jk = request.getParameter("jk");
         String alamat = request.getParameter("alamat");
@@ -49,12 +50,12 @@ public class PegawaiInsert extends HttpServlet {
         String tmptLahir = request.getParameter("tmptLahir");
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(tglLahir);
         } catch (Exception ex) {
         }
         RequestDispatcher dispatcher = null;
-        String pesan = "gagal";
         PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             PegawaiMii mii = new PegawaiMii();
             mii.setNip(Long.valueOf(nip));
@@ -62,14 +63,19 @@ public class PegawaiInsert extends HttpServlet {
             mii.setNama(nama);
             mii.setJk(jk);
             mii.setAlamat(alamat);
-            mii.setTglLahir(date);            
+            mii.setTglLahir(date);
             mii.setTmptLahir(tmptLahir);
             if (miiDAO.insert(mii)) {
-                pesan = "Berhasil menambah data dengan ID :" + mii.getNip();
+                String berhasil = "Berhasil menambah data dengan ID :" + mii.getNip();
+                session.setAttribute("berhasil", berhasil);
+            } else {
+                String gagal = "Gagal menambah data dengan ID :" + mii.getNip();
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
             dispatcher = request.getRequestDispatcher("pegawaiServlet");
             dispatcher.include(request, response);
+
+//            System.out.println(nmJabatan);
         }
     }
 

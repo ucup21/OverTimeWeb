@@ -42,7 +42,7 @@ public class JabatanGetById extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Jabatan jabatan = (Jabatan) new JabatanDAO().getById(id);
             session.setAttribute("jab", jabatan);
-            out.print("<font color=\"red\"> Update " + jabatan.getNamaJabatan() + "</font>");
+//            out.print("<font color=\"red\"> Update " + jabatan.getNamaJabatan() + "</font>");
             dis = request.getRequestDispatcher("view/update/jabatanUpdate.jsp");
             dis.include(request, response);
         }

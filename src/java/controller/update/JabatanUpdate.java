@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,16 +39,19 @@ public class JabatanUpdate extends HttpServlet {
         String kdJabatan = request.getParameter("kdJabatan");
         String nmJabatan = request.getParameter("nmJabatan");
         RequestDispatcher dis = null;
-        String pesan = "gagal";
+        HttpSession session = request.getSession();
         JabatanDAO jdao = new JabatanDAO();
         try (PrintWriter out = response.getWriter()) {
             Jabatan jabatan = new Jabatan();
             jabatan.setKdJabatan(kdJabatan);
             jabatan.setNamaJabatan(nmJabatan);
             if (jdao.update(jabatan)) {
-                pesan = "Berhasil mengubah data dengan ID :" + jabatan.getKdJabatan();
+                String berhasil = "Berhasil mengubah data dengan ID :" + jabatan.getKdJabatan();
+                session.setAttribute("berhasil", berhasil);
+            }else {
+                String gagal = "Gagal mengubah ID :" + jabatan.getKdJabatan();
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
             dis = request.getRequestDispatcher("jabatanServlet");
             dis.include(request, response);
         }

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5f2b8e9e-d140-46e0-a022-027143680215">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="bulan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     DETAIL."TARIF" AS DETAIL_TARIF,
+     DETAIL_LEMBUR."TGL_LEMBUR" AS DETAIL_LEMBUR_TGL_LEMBUR,
+     JABATAN."NAMA_JABATAN" AS JABATAN_NAMA_JABATAN,
+     JENIS_LEMBUR."LAMA_LEMBUR" AS JENIS_LEMBUR_LAMA_LEMBUR,
+     PEGAWAI_MII."NAMA" AS PEGAWAI_MII_NAMA,
+     PEGAWAI_MII."NIP" AS PEGAWAI_MII_NIP
+FROM
+     "HR"."JABATAN" JABATAN INNER JOIN "HR"."DETAIL" DETAIL ON JABATAN."KD_JABATAN" = DETAIL."KD_JABATAN"
+     INNER JOIN "HR"."JENIS_LEMBUR" JENIS_LEMBUR ON DETAIL."KD_LEMBUR" = JENIS_LEMBUR."KD_LEMBUR"
+     INNER JOIN "HR"."DETAIL_LEMBUR" DETAIL_LEMBUR ON JENIS_LEMBUR."KD_LEMBUR" = DETAIL_LEMBUR."KD_LEMBUR"
+     INNER JOIN "HR"."PEGAWAI_MII" PEGAWAI_MII ON DETAIL_LEMBUR."NIP" = PEGAWAI_MII."NIP"
+     AND JABATAN."KD_JABATAN" = PEGAWAI_MII."KD_JABATAN" 
+AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
+	</queryString>
+	<field name="DETAIL_TARIF" class="java.math.BigDecimal"/>
+	<field name="DETAIL_LEMBUR_TGL_LEMBUR" class="java.sql.Timestamp"/>
+	<field name="JABATAN_NAMA_JABATAN" class="java.lang.String"/>
+	<field name="JENIS_LEMBUR_LAMA_LEMBUR" class="java.math.BigDecimal"/>
+	<field name="PEGAWAI_MII_NAMA" class="java.lang.String"/>
+	<field name="PEGAWAI_MII_NIP" class="java.math.BigDecimal"/>
+	<variable name="DETAIL_TARIF_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{DETAIL_TARIF}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="79" backcolor="#006699" uuid="cb02faa8-6853-4679-a5e8-29e4457536a7"/>
+				<staticText>
+					<reportElement x="24" y="16" width="424" height="43" forecolor="#FFFFFF" uuid="f139b5f7-f6d6-4f4e-b73f-b5cf95b78363"/>
+					<textElement>
+						<font size="26" isBold="true"/>
+					</textElement>
+					<text><![CDATA[LAPORAN LEMBUR PEGAWAI]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="605" y="59" width="133" height="20" forecolor="#FFFFFF" uuid="06428c47-f884-45dd-ae48-6e833414815e"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(new java.util.Date())]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="118" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="adf0dea3-2bdd-437d-bfe3-63a058172f00"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="118" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0e1c3b96-3ff1-4005-be06-cd881462bea5"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Pegawai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="256" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="bad908d9-ed47-4f8f-a361-65a1d7b8ba92"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jabatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="394" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="78f2ed2f-161a-4fbc-b6cf-9812258a2920"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl Lembur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="532" y="0" width="132" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="109eddfe-995c-4729-bd76-70c38f149583"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lama Lembur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="664" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0eba73ef-728c-431e-bb78-d10ed899f9d1"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Upah]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="0" width="100" height="20" uuid="f702a161-4c7a-4164-8ac4-6e63e6f67488"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEGAWAI_MII_NIP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="100" height="20" uuid="98285c93-00b6-428d-ae4e-4858f7009902"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEGAWAI_MII_NAMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="0" width="100" height="20" uuid="c4f5dc83-aab0-4a9e-89ff-4e2c342c86c6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JABATAN_NAMA_JABATAN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="100" height="20" uuid="363cef06-6653-4998-becc-ac742dae8b1f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format($F{DETAIL_LEMBUR_TGL_LEMBUR})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="0" width="100" height="20" uuid="e9547c1a-8b4e-418a-949d-1a124c6b2423"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_LAMA_LEMBUR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="692" y="0" width="100" height="20" uuid="029fcd53-8f3d-47ec-8bcc-2d16636d1ac1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DETAIL_TARIF}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="692" y="0" width="107" height="20" backcolor="#CCCCCC" uuid="1b88cab8-a098-470f-ab1f-49237422a856"/>
+				<textElement markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DETAIL_TARIF_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="34" y="0" width="644" height="20" forecolor="#006699" backcolor="#FFFFFF" uuid="7729ee92-77b9-4d12-ba74-f04bb4806c96"/>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Upah Lembur Keseluruhan :]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

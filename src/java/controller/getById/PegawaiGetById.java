@@ -42,7 +42,7 @@ public class PegawaiGetById extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             PegawaiMii mii = (PegawaiMii) new PegawaiMiiDAO().getById(id);
             session.setAttribute("pegawai", mii);
-            out.print("<font color=\"red\"> Update "+ mii.getNip()+"</font>");
+//            out.print("<font color=\"red\"> Update "+ mii.getNip()+"</font>");
             dispatcher = request.getRequestDispatcher("view/update/pegawaiUpdate.jsp");
             dispatcher.include(request, response);
         }

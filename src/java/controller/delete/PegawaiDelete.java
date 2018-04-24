@@ -39,13 +39,15 @@ public class PegawaiDelete extends HttpServlet {
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
         PegawaiMiiDAO pmdao = new PegawaiMiiDAO();
-        String pesan = "Gagal Menghapus";
         try (PrintWriter out = response.getWriter()) {
             if (pmdao.delete(id)) {
-                pesan ="Behasil Dihapus ID "+ id;
+                String berhasil = "Behasil menghapus ID " + id;
+                session.setAttribute("berhasil", berhasil);
+            } else {
+                String gagal = "Gagal menghapus ID" + id;
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
-            session.setAttribute("pesan", pesan);
+//            out.print(pesan);
             dispatcher = request.getRequestDispatcher("pegawaiServlet");
             dispatcher.include(request, response);
         }

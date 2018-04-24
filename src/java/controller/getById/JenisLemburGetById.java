@@ -43,7 +43,7 @@ public class JenisLemburGetById extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JenisLembur jenisLembur = (JenisLembur) new JenisLemburDAO().getById(id);
             session.setAttribute("jenisLembur", jenisLembur);
-            out.print("<font color=\"red\"> Update " + jenisLembur.getKdLembur() + "</font>");
+//            out.print("<font color=\"red\"> Update " + jenisLembur.getKdLembur() + "</font>");
             dis = request.getRequestDispatcher("view/update/jenisLemburUpdate.jsp");
             dis.include(request, response);
         }

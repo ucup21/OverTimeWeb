@@ -5,8 +5,10 @@
  */
 package tools;
 
+import dao.DetailDAO;
 import dao.JenisLemburDAO;
 import dao.PegawaiMiiDAO;
+import dao.UserManagementDAO;
 import entities.JenisLembur;
 
 /**
@@ -15,6 +17,8 @@ import entities.JenisLembur;
  */
 public class test {
     public static void main(String[] args) {
-        System.out.println(new PegawaiMiiDAO().getAutoID());
+//        System.out.println(new PegawaiMiiDAO().getAutoID());
+//System.out.println(new DetailDAO().getById("SA", "LB001"));
+System.out.println(new UserManagementDAO().search("username", "sas"));
     }
 }

@@ -38,12 +38,17 @@ public class DetailLemburServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
-        try (PrintWriter out = response.getWriter()) {    
-            List<Object> datas = new DetailLemburDAO().getAll();
-            if (session.getAttribute("pesan") != null) {
-                out.print(session.getAttribute("pesan") + "<br>");
-                session.removeAttribute("pesan");
+        DetailLemburDAO aO = new DetailLemburDAO();
+        try (PrintWriter out = response.getWriter()) {
+            if (session.getAttribute("login") == null) {
+                response.sendRedirect("index.jsp");
             }
+            List<Object> datas = new DetailLemburDAO().getAll();
+//            if (session.getAttribute("pesan") != null) {
+//                out.print(session.getAttribute("pesan") + "<br>");
+//                session.removeAttribute("pesan");
+//            }
+            session.setAttribute("autoID", aO.getAutoID());
             session.setAttribute("dataDetailLembur", datas);
             dispatcher = request.getRequestDispatcher("view/detailLembur.jsp");
             dispatcher.include(request, response);

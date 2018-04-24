@@ -39,10 +39,17 @@ public class DetailJabatanLemburServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
+            if (session.getAttribute("login") == null) {
+                response.sendRedirect("index.jsp");
+            }
             List<Object> datas = new DetailDAO().getAll();
+//            if (session.getAttribute("pesan") != null) {
+//                out.print(session.getAttribute("pesan") + "<br>");
+//                session.removeAttribute("pesan");
+//            }
             session.setAttribute("dataDetailjabatanLembur", datas);
             dispatcher = request.getRequestDispatcher("view/detailLemburJabatan.jsp");
-            dispatcher.forward(request, response);
+            dispatcher.include(request, response);
         }
     }
 

@@ -38,14 +38,16 @@ public class JenisLemburDelete extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");;
         RequestDispatcher dis = null;
-        String pesan = "gagal";
         JenisLemburDAO aO  = new JenisLemburDAO();
         HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             if (aO.delete(id)) {
-                pesan = "Berhasil menghapus data ID :" + id;
+                String berhasil = "Berhasil menghapus data ID :" + id;
+                session.setAttribute("berhasil", berhasil);
+            }else {
+                String gagal = "Gagal Menghapus";
+                session.setAttribute("gagal", gagal);
             }
-            session.setAttribute("pesan", pesan);
             dis = request.getRequestDispatcher("jenisLemburServlet");
             dis.include(request, response);
         }

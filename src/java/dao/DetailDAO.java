@@ -6,7 +6,6 @@
 package dao;
 
 import entities.Detail;
-import entities.DetailPK;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
@@ -73,6 +72,10 @@ public class DetailDAO implements InterfaceDAO{
 
     public List<Object> getAll() {
         return fdao.getAll("FROM Detail order by jabatan");
+    }
+    
+     public Object getById(String Id, String Ids) {
+        return fdao.getById("FROM Detail where kd_jabatan='" + Id + "' AND kd_lembur='" + Ids + "'");
     }
     
 }

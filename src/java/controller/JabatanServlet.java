@@ -39,14 +39,19 @@ public class JabatanServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
-            List<Object> datas = new JabatanDAO().getAll();
-            if (session.getAttribute("pesan") != null) {
-                out.print(session.getAttribute("pesan") + "<br>");
-                session.removeAttribute("pesan");
+            if (session.getAttribute("login") == null) {
+                response.sendRedirect("index.jsp");
             }
+
+            List<Object> datas = new JabatanDAO().getAll();
+//            if (session.getAttribute("pesan") != null) {
+//                out.print(session.getAttribute("pesan") + "<br>");
+//                session.removeAttribute("pesan");
+//            }
             session.setAttribute("dataJabatan", datas);
             dispatcher = request.getRequestDispatcher("view/jabatan.jsp");
             dispatcher.include(request, response);
+
         }
     }
 

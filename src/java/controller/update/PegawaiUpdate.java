@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,7 +40,7 @@ public class PegawaiUpdate extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nip = request.getParameter("nip");
-        String nmJabatan = request.getParameter("nmJabatan");
+        String nmJabatan = request.getParameter("cmbJabatan");
         String nama = request.getParameter("nmLengkap");
         String jk = request.getParameter("jk");
         String alamat = request.getParameter("alamat");
@@ -51,7 +52,7 @@ public class PegawaiUpdate extends HttpServlet {
         } catch (Exception e) {
         }
         RequestDispatcher dispatcher = null;
-        String pesan = "gagal";
+        HttpSession session = request.getSession();
         PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
         try (PrintWriter out = response.getWriter()) {
 
@@ -61,12 +62,17 @@ public class PegawaiUpdate extends HttpServlet {
             mii.setNama(nama);
             mii.setJk(jk);
             mii.setAlamat(alamat);
-            mii.setTglLahir(date);            
+            mii.setTglLahir(date);
             mii.setTmptLahir(tmptLahir);
             if (miiDAO.update(mii)) {
-                pesan = "Berhasil mengubah data dengan ID :" + mii.getNip();
+                String berhasil = "Berhasil mengubah data dengan ID :" + mii.getNip();
+                session.setAttribute("berhasil", berhasil);
+            } else {
+                String gagal = "Gagal mengubah data";
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
+//            out.print(pesan);
+            
             dispatcher = request.getRequestDispatcher("pegawaiServlet");
             dispatcher.include(request, response);
         }

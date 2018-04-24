@@ -6,9 +6,7 @@
 package controller.insert;
 
 import dao.DetailLemburDAO;
-import dao.JabatanDAO;
 import entities.DetailLembur;
-import entities.Jabatan;
 import entities.JenisLembur;
 import entities.PegawaiMii;
 import java.io.IOException;
@@ -22,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,12 +47,12 @@ public class DetailLemburInsert extends HttpServlet {
         String TglLembur = request.getParameter("tglLembur");
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd").parse(TglLembur);
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(TglLembur);
         } catch (Exception e) {
         }
         RequestDispatcher dis = null;
-        String pesan = "gagal";
         DetailLemburDAO dAO = new DetailLemburDAO();
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             DetailLembur dl = new DetailLembur();
             dl.setKdDetailLembur(KdDetailLembur);
@@ -61,9 +60,14 @@ public class DetailLemburInsert extends HttpServlet {
             dl.setNip(new PegawaiMii(Long.parseLong(Nama)));
             dl.setTglLembur(date);
             if (dAO.insert(dl)) {
-                pesan = "Berhasil menambah data dengan ID :" + dl.getKdDetailLembur();
+                String berhasil = "Berhasil menambah data dengan ID :" + dl.getKdDetailLembur();
+                session.setAttribute("berhasil", berhasil);
+            }else{
+                String gagal = "Gagal menambah data dengan ID :" + dl.getKdDetailLembur();
+                session.setAttribute("gagal", gagal);
             }
-            out.print(pesan);
+//            out.print(pesan);
+            
             dis = request.getRequestDispatcher("detailLemburServlet");
             dis.include(request, response);
         }
