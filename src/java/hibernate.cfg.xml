@@ -55,7 +55,7 @@ Contributor(s):
     <mapping class="entities.DetailPK"/>
     <mapping class="entities.Jabatan"/>
     <mapping class="entities.JenisLembur"/>
-    <mapping class="entities.PegawaiMii"/>
     <mapping class="entities.Usermanagement"/>
+    <mapping class="entities.PegawaiMii"/>
   </session-factory>
 </hibernate-configuration>

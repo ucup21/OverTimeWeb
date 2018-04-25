@@ -41,7 +41,7 @@ public class JenisLemburServlet extends HttpServlet {
         JenisLemburDAO jldao = new JenisLemburDAO();
         try (PrintWriter out = response.getWriter()) {
             if (session.getAttribute("login") == null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("login.jsp");
             }
             List<Object> datas = new JenisLemburDAO().getAll();
 //            if (session.getAttribute("pesan") != null) {

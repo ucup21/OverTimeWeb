@@ -85,8 +85,17 @@
                     </div>
 
                     <div class="col-sm-5">
+
                         <div class="user-area dropdown float-right">
-                            <a href="logoutServlet"> Logout </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            </a>
+
+                            <div class="user-menu dropdown-menu">
+
+                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -126,12 +135,12 @@
                                 <%if (session.getAttribute("berhasil") != null) {%>
                                 <div class="alert alert-success" role="alert">
                                     <%out.print(session.getAttribute("berhasil") + "<br>");
-                                    session.removeAttribute("berhasil");%>
+                                        session.removeAttribute("berhasil");%>
                                 </div>
                                 <%} else if (session.getAttribute("gagal") != null) {%>                                    
                                 <div class="alert alert-danger" role="alert">
                                     <%out.print(session.getAttribute("gagal") + "<br>");
-                                    session.removeAttribute("gagal");%>
+                                        session.removeAttribute("gagal");%>
                                 </div>
                                 <%}%>      
 
@@ -207,7 +216,7 @@
                                                     <%
                                                         if (autoId == null) {
                                                     %> <input readonly type="text" class="form-control" name="nip" placeholder="Masukkan nip Anda" value="14300"><%
-                                                } else {%>
+                                                    } else {%>
                                                     <input readonly type="text" class="form-control" name="nip" placeholder="Masukkan nip Anda" value="<%= autoId%>">  <%
                                                         }
                                                     %>
@@ -224,7 +233,7 @@
 
                                                         %>
                                                         <option value="<%= jabatan.getKdJabatan()%>"><%= jabatan.getNamaJabatan()%></option><%
-                                                        }%>
+                                                            }%>
                                                     </select>
 
                                                 </div>
@@ -263,6 +272,18 @@
                                             <input type="date" class="form-control" name="tglLahir" placeholder="Masukan tanggal lahir anda">
                                         </div>
                                     </div>
+                                    <div  class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Akses</label>
+                                            <select class="form-control" name="akses">
+                                                <option value="admin">Admin</option>
+                                                <option value="manager">Manager</option>
+                                                <option value="pegawai">Pegawai</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                                     <div  class="col-md-12"></div>
                                 </div>
                                 <div class="modal-footer">
@@ -328,7 +349,7 @@
                                                         Jabatan jabatan = (Jabatan) data1;
                                                         if (mii.getKdJabatan().getKdJabatan().equals(jabatan.getKdJabatan())) {%>
                                                 <option value="<%= jabatan.getKdJabatan()%>" selected><%= jabatan.getNamaJabatan()%> </option><%
-                                            } else {%>
+                                                } else {%>
                                                 <option value="<%= jabatan.getKdJabatan()%>"><%= jabatan.getNamaJabatan()%></option>
                                                 <%
                                                         }
@@ -347,10 +368,10 @@
                                         <div class="form-group">
                                             <label for="jk">Jenis Kelamin</label><br>
                                             <%
-                                            if (mii.getJk().equals("Laki-Laki")) {%>
+                                                if (mii.getJk().equals("Laki-Laki")) {%>
                                             <input type="radio" name="jk" value="Laki-Laki" checked="checked" />Laki-Laki   
                                             <input type="radio" name="jk" value="Perempuan" />Perempuan<%
-                                        } else {%>
+                                            } else {%>
                                             <input type="radio" name="jk" value="Laki-Laki" />Laki-Laki
                                             <input type="radio" name="jk" value="Perempuan" checked="checked" />Perempuan   <%
                                                 }
@@ -374,11 +395,16 @@
                                         <div class="form-group">
                                             <label for="tglLahir">Tanggal Lahir</label>
                                             <% DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                                            String tgl = date.format(mii.getTglLahir());%>
+                                                String tgl = date.format(mii.getTglLahir());%>
                                             <input type="date" class="form-control datepicker" name="tglLahir" placeholder="Masukan tanggal lahir anda" value="<%= tgl%>">
                                         </div>
                                     </div>
-                                    <div  class="col-md-12"></div>
+
+                                    <div  class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="akses" value="<%= mii.getAkses()%>">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

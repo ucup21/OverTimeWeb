@@ -38,7 +38,7 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
             if (session.getAttribute("login") == null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("login.jsp");
             }
             dispatcher = request.getRequestDispatcher("indexAfter.jsp");
             dispatcher.include(request, response);

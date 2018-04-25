@@ -5,7 +5,10 @@
  */
 package controller;
 
-import dao.DetailLemburDAO;
+import dao.PegawaiMiiDAO;
+import dao.UserManagementDAO;
+import entities.PegawaiMii;
+import entities.Usermanagement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,13 +19,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tools.BCrypt;
 
 /**
  *
  * @author hp
  */
-@WebServlet(name = "DetailLemburServlet", urlPatterns = {"/detailLemburServlet"})
-public class DetailLemburServlet extends HttpServlet {
+@WebServlet(name = "UbahPasswordServlet", urlPatterns = {"/ubahPasswordServlet"})
+public class UbahPasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,22 +40,42 @@ public class DetailLemburServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher dispatcher = null;
+        String Username = request.getParameter("username");
+        String PassLama = request.getParameter("passwordLama");
+        String PassBaru = request.getParameter("passwordBaru");
+        String KonPasBar = request.getParameter("konfirmasipasswordBaru");
+        
         HttpSession session = request.getSession(true);
-        DetailLemburDAO aO = new DetailLemburDAO();
+//        RequestDispatcher dispatcher = null;
         try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("login") == null) {
-                response.sendRedirect("login.jsp");
+            PegawaiMiiDAO aO = new PegawaiMiiDAO();
+            List<Object> datas = (List<Object>) aO.search("nip", Username);
+            String pesan = "", hasil = "";
+            for (Object data : datas) {
+                PegawaiMii mii  = (PegawaiMii) data;
+                if (mii.getNip().toString().equals(Username)) {
+                    if (BCrypt.checkpw(PassLama, mii.getPassword())) {
+                        if (PassBaru.equals(KonPasBar)) {
+                            mii.setNip(Long.valueOf(Username));
+                            mii.setPassword(BCrypt.hashpw(PassBaru, BCrypt.gensalt()));
+                            mii.setAkses("pegawai");
+                            aO.insert(mii);
+                            pesan = "Password Berhasil Diubah";
+                            hasil = "berhasil";
+                            
+                        } else {
+                            pesan = "Password Tidak Sama";
+                            hasil = "gagal";
+                        }
+                    } else {
+                        pesan = "Password Lama Salah";
+                        hasil = "gagal";
+                    }
+                }
             }
-            List<Object> datas = new DetailLemburDAO().getAll();
-//            if (session.getAttribute("pesan") != null) {
-//                out.print(session.getAttribute("pesan") + "<br>");
-//                session.removeAttribute("pesan");
-//            }
-            session.setAttribute("autoID", aO.getAutoID());
-            session.setAttribute("dataDetailLembur", datas);
-            dispatcher = request.getRequestDispatcher("view/detailLembur.jsp");
-            dispatcher.include(request, response);
+            session.setAttribute(hasil, pesan);
+            response.sendRedirect("indexUser.jsp");
+
         }
     }
 

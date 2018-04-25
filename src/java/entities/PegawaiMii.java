@@ -7,9 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,12 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,7 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "PegawaiMii.findByJk", query = "SELECT p FROM PegawaiMii p WHERE p.jk = :jk")
     , @NamedQuery(name = "PegawaiMii.findByAlamat", query = "SELECT p FROM PegawaiMii p WHERE p.alamat = :alamat")
     , @NamedQuery(name = "PegawaiMii.findByTglLahir", query = "SELECT p FROM PegawaiMii p WHERE p.tglLahir = :tglLahir")
-    , @NamedQuery(name = "PegawaiMii.findByTmptLahir", query = "SELECT p FROM PegawaiMii p WHERE p.tmptLahir = :tmptLahir")})
+    , @NamedQuery(name = "PegawaiMii.findByTmptLahir", query = "SELECT p FROM PegawaiMii p WHERE p.tmptLahir = :tmptLahir")
+    , @NamedQuery(name = "PegawaiMii.findByPassword", query = "SELECT p FROM PegawaiMii p WHERE p.password = :password")
+    , @NamedQuery(name = "PegawaiMii.findByAkses", query = "SELECT p FROM PegawaiMii p WHERE p.akses = :akses")})
 public class PegawaiMii implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,8 +56,10 @@ public class PegawaiMii implements Serializable {
     private Date tglLahir;
     @Column(name = "TMPT_LAHIR")
     private String tmptLahir;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nip", fetch = FetchType.LAZY)
-    private List<DetailLembur> detailLemburList;
+    @Column(name = "PASSWORD")
+    private String password;
+    @Column(name = "AKSES")
+    private String akses;
     @JoinColumn(name = "KD_JABATAN", referencedColumnName = "KD_JABATAN")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Jabatan kdJabatan;
@@ -67,6 +67,7 @@ public class PegawaiMii implements Serializable {
     public PegawaiMii() {
     }
 
+    
     public PegawaiMii(Long nip) {
         this.nip = nip;
     }
@@ -119,13 +120,20 @@ public class PegawaiMii implements Serializable {
         this.tmptLahir = tmptLahir;
     }
 
-    @XmlTransient
-    public List<DetailLembur> getDetailLemburList() {
-        return detailLemburList;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDetailLemburList(List<DetailLembur> detailLemburList) {
-        this.detailLemburList = detailLemburList;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAkses() {
+        return akses;
+    }
+
+    public void setAkses(String akses) {
+        this.akses = akses;
     }
 
     public Jabatan getKdJabatan() {

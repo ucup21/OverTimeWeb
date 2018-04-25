@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
+import tools.BCrypt;
 
 /**
  *
@@ -48,6 +49,7 @@ public class PegawaiInsert extends HttpServlet {
         String alamat = request.getParameter("alamat");
         String tglLahir = request.getParameter("tglLahir");
         String tmptLahir = request.getParameter("tmptLahir");
+        String akses = request.getParameter("akses");
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(tglLahir);
@@ -65,6 +67,8 @@ public class PegawaiInsert extends HttpServlet {
             mii.setAlamat(alamat);
             mii.setTglLahir(date);
             mii.setTmptLahir(tmptLahir);
+            mii.setPassword(BCrypt.hashpw(tglLahir, BCrypt.gensalt()));
+            mii.setAkses(akses);
             if (miiDAO.insert(mii)) {
                 String berhasil = "Berhasil menambah data dengan ID :" + mii.getNip();
                 session.setAttribute("berhasil", berhasil);

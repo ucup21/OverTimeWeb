@@ -40,7 +40,7 @@ public class JabatanServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
             if (session.getAttribute("login") == null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("login.jsp");
             }
 
             List<Object> datas = new JabatanDAO().getAll();

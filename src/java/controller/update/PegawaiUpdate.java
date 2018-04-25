@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tools.BCrypt;
 
 /**
  *
@@ -46,6 +47,7 @@ public class PegawaiUpdate extends HttpServlet {
         String alamat = request.getParameter("alamat");
         String tglLahir = request.getParameter("tglLahir");
         String tmptLahir = request.getParameter("tmptLahir");
+        String akses = request.getParameter("akses");
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
@@ -63,6 +65,8 @@ public class PegawaiUpdate extends HttpServlet {
             mii.setJk(jk);
             mii.setAlamat(alamat);
             mii.setTglLahir(date);
+            mii.setPassword(BCrypt.hashpw(tglLahir, BCrypt.gensalt()));
+            mii.setAkses(akses);
             mii.setTmptLahir(tmptLahir);
             if (miiDAO.update(mii)) {
                 String berhasil = "Berhasil mengubah data dengan ID :" + mii.getNip();

@@ -5,18 +5,21 @@
  */
 package dao;
 
+import entities.Jabatan;
 import entities.PegawaiMii;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import tools.BCrypt;
 import tools.HibernateUtil;
 
 /**
  *
  * @author hp
  */
-public class PegawaiMiiDAO implements InterfaceDAO{
+public class PegawaiMiiDAO implements InterfaceDAO {
+
     public Session session;
     private SessionFactory factory;
     public Transaction transaction;
@@ -36,9 +39,8 @@ public class PegawaiMiiDAO implements InterfaceDAO{
      * @param object Object berupa class PegawaiMII yang di Delete
      * @return fdao memanggil fungsi delete pada class fdao
      */
-    
     public boolean delete(Object object) {
-        return fdao.delete(PegawaiMii.class,Long.parseLong(object+""));
+        return fdao.delete(PegawaiMii.class, Long.parseLong(object + ""));
     }
 
     /**
@@ -59,7 +61,7 @@ public class PegawaiMiiDAO implements InterfaceDAO{
     /**
      * fungsi insert untuk mengedit data pada tabel PegawaiMII
      *
-     * @param object 
+     * @param object
      * @return fdao memangil fungsi insert pada class fdao
      */
     public boolean update(Object object) {
@@ -69,11 +71,34 @@ public class PegawaiMiiDAO implements InterfaceDAO{
     public List<Object> getAll() {
         return fdao.getAll("FROM PegawaiMii ORDER BY nip");
     }
-    
-    public Long getAutoID(){
+
+    public Long getAutoID() {
         return (Long) fdao.getById("SELECT MAX(nip)+1 FROM PegawaiMii");
-    }  
+    }
+
+//    public boolean insert(Long nip, String kdJabatan, String nama, String jk, String Alamat, String tgl_lahir, String tmpt_lahir, String password, String akses, boolean isUpdate) {
+//        Long nipBaru = nip;
+//        if (!isUpdate) {
+//            nipBaru = getAutoID();
+//        }
+//        PegawaiMii mii = new PegawaiMii(); //salt seperti key nya
+//        mii.setNip(nipBaru);
+//        mii.setKdJabatan(new Jabatan(kdJabatan));
+//        mii.setNama(nama);
+//        mii.setAlamat(Alamat);
+//        mii.setTglLahir(new java.sql.Date(new Long (tgl_lahir)));
+//        mii.setTmptLahir(tmpt_lahir);
+//        mii.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+//        mii.setAkses(akses);
+//        return insert(mii);
+//    }
+
+    public boolean login(String nip, String password){
+        PegawaiMii mii = (PegawaiMii) getById(nip);
+        return BCrypt.checkpw(password, mii.getPassword());
+    }
+     public boolean login(String category, String username, String password) {
+        PegawaiMii mii = (PegawaiMii) search(category, username).get(0);
+        return BCrypt.checkpw(password, mii.getPassword());
+    }
 }
-
-
-

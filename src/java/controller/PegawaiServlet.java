@@ -41,7 +41,7 @@ public class PegawaiServlet extends HttpServlet {
         PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
         try (PrintWriter out = response.getWriter()) {
             if (session.getAttribute("login")==null) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("login.jsp");
             }
             List<Object> datas = new PegawaiMiiDAO().getAll();
 //            if (session.getAttribute("pesan") != null) {

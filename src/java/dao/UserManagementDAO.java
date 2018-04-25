@@ -18,18 +18,15 @@ import tools.HibernateUtil;
 public class UserManagementDAO {
 
     private final FunctionsDAO fdao;
-    
+
     public UserManagementDAO() {
-         this.fdao = new FunctionsDAO(HibernateUtil.getSessionFactory());
+        this.fdao = new FunctionsDAO(HibernateUtil.getSessionFactory());
     }
 
-    
-  
     public boolean save(Object object) {
         return fdao.insert(object);
     }
 
-  
     public boolean delete(Object object) {
         return fdao.delete(Usermanagement.class, BigDecimal.valueOf(new Long(object.toString())));
     }
@@ -39,25 +36,36 @@ public class UserManagementDAO {
     }
 
     public List<Object> search(String category, String search) {
-        return fdao.getAll("FROM Usermanagement WHERE "+category
-                +" LIKE '%"+search+"%'ORDER BY id");
+        return fdao.getAll("FROM Usermanagement WHERE " + category
+                + " LIKE '%" + search + "%'ORDER BY id");
     }
 
     public Object getById(String id) {
-        return fdao.getById("FROM Usermanagement WHERE id="+id);
-                
+        return fdao.getById("FROM Usermanagement WHERE id=" + id);
+
     }
 
-    
-    public Object getAutoID() {
-        return fdao.getById("SELECT MAX(id)+1 FROM Usermanagement");
-    }
-    
-    public boolean login(String category, String username, String password){
+
+    public boolean login(String category, String username, String password) {
         Usermanagement u = (Usermanagement) search(category, username).get(0);
         return BCrypt.checkpw(password, u.getPassword());
     }
 
-    
-    
+     public BigDecimal getAutoID(){
+        BigDecimal ids = BigDecimal.valueOf(new Long("1"));
+        if (ids != null) {
+            ids = BigDecimal.valueOf(new Long(getAutoID().toString()));
+        }
+        return ids;
+    }
+     
+    public boolean save(BigDecimal id, String username, String password, String akses, boolean isUpdate) {
+        BigDecimal idBaru = id;
+        if (!isUpdate) {
+            idBaru = getAutoID();
+        }
+        Usermanagement u = new Usermanagement(idBaru, username, BCrypt.hashpw(password, BCrypt.gensalt()), akses); //salt seperti key nya
+        return save(u);
+    }
+
 }

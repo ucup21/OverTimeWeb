@@ -5,9 +5,13 @@
  */
 package controller;
 
+import dao.PegawaiMiiDAO;
 import dao.UserManagementDAO;
+import entities.PegawaiMii;
+import entities.Usermanagement;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tools.BCrypt;
 
 /**
  *
@@ -35,27 +40,120 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+//        String Username = request.getParameter("userName");
+//        String Pass = request.getParameter("pass");
+//        RequestDispatcher dispatcher = null;
+//        HttpSession session = request.getSession();
+//        String category = "nip";
+//        UserManagementDAO managementDAO = new UserManagementDAO();
+//        PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
+//        miiDAO.getById(Username);
+
+//        PegawaiMiiDAO dAO = new PegawaiMiiDAO();
+//        PegawaiMii mii = (PegawaiMii) new PegawaiMiiDAO().getById(Username);
+//
+////        List<Object> datas = (List<Object>) managementDAO.search(category, Username);
+//        try (PrintWriter out = response.getWriter()) {
+//            String send = "", pesan = "", hasil = "";
+//            boolean login = managementDAO.login(category, Username, Pass);
+//            if (mii.getNip().toString() == Username) {
+//                if (BCrypt.checkpw(Pass, mii.getPassword())) {
+//                    if (mii.getAkses().equals("admin")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexAdmin.jsp";
+//                    } else if (mii.getAkses().equals("manager")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexManager.jsp";
+//                    } else if (mii.getAkses().equals("pegawai")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexUser.jsp";
+//                    }
+//                } else {
+//                    pesan = "Username atau Password Salah";
+//                    hasil = "Gagal";
+//                    send = "login.jsp";
+//                }
+//
+//            } else {
+//                pesan = "Username atau Password Salah";
+//                hasil = "Gagal";
+//                send = "login.jsp";
+//            }
+//            if (dAO.login(Username, Pass)) {
+//                if (mii.getNip().toString().equals(Username)) {
+//                    if (mii.getAkses().equals("admin")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexAdmin.jsp";
+//                    } else if (mii.getAkses().equals("manager")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexManager.jsp";
+//                    } else if (mii.getAkses().equals("pegawai")) {
+//                        pesan = "berhasil login " + mii.getNama();
+//                        hasil = "Berhasil";
+//                        send = "indexUser.jsp";
+//                    }
+//                }
+//            } else if (mii == null) {
+//                if (!dAO.login(Username, Pass)) {
+//                    pesan = "Username atau Password Salah";
+//                    hasil = "Gagal";
+//                    send = "login.jsp";
+//                }
+//            } else if (!dAO.login(Username, Pass)) {
+//                pesan = "Username atau Password Salah";
+//                hasil = "Gagal";
+//                send = "login.jsp";
+//
+//            }
+//            session.setAttribute("login", Username);
+//            session.setAttribute(hasil, pesan);
+//            dispatcher = request.getRequestDispatcher(send);
+//            dispatcher.include(request, response);
         String Username = request.getParameter("userName");
         String Pass = request.getParameter("pass");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
-        String category = "username";
-        UserManagementDAO managementDAO = new UserManagementDAO();
+        String category = "nip";
+        PegawaiMiiDAO aO = new PegawaiMiiDAO();
+
+        List<Object> datas = (List<Object>) aO.search(category, Username);
+
         try (PrintWriter out = response.getWriter()) {
             String send = "", pesan = "", hasil = "";
-//            boolean login = managementDAO.login(category, Username, Pass);
+//            booSlean login = managementDAO.login(category, Username, Pass);
+
             if (Username.equals("") || Pass.equals("")) {
                 pesan = "Username dan Password Harus Terisi";
                 hasil = "Gagal";
-                send = "index.jsp";
-            } else if (managementDAO.search(category, Username).isEmpty() || !managementDAO.login(category, Username, Pass)) {
+                send = "login.jsp";
+            } else if (aO.search(category, Username).isEmpty() || !aO.login(category, Username, Pass)) {
                 pesan = "Username atau Password Salah";
                 hasil = "Gagal";
-                send = "index.jsp";
-            } else if (managementDAO.login(category, Username, Pass)) {
-                pesan = "berhasil login" + Username;
-                hasil = "Berhasil";
-                send = "indexAfter.jsp";
+                send = "login.jsp";
+            } else if (aO.login(category, Username, Pass)) {
+                for (Object data : datas) {
+                    PegawaiMii u = (PegawaiMii) data;
+                    if (u.getNip().toString().equals(Username)) {
+                        if (u.getAkses().equals("admin")) {
+                            pesan = "berhasil login" + Username;
+                            hasil = "Berhasil";
+                            send = "indexAdmin.jsp";
+                        }else if (u.getAkses().equals("manager")) {
+                            pesan = "berhasil login" + Username;
+                            hasil = "Berhasil";
+                            send = "indexManager.jsp";
+                        } else if(u.getAkses().equals("pegawai")) {
+                            pesan = "berhasil login" + Username;
+                            hasil = "Berhasil";
+                            send = "indexUser.jsp";
+                        }
+                    }
+                }
             }
             session.setAttribute("login", Username);
             session.setAttribute(hasil, pesan);

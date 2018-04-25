@@ -78,8 +78,17 @@
                     </div>
 
                     <div class="col-sm-5">
+
                         <div class="user-area dropdown float-right">
-                            <a href="logoutServlet"> Logout </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            </a>
+
+                            <div class="user-menu dropdown-menu">
+
+                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -180,13 +189,13 @@
                                     <div  class="col-md-12">
                                         <div class="form-group">
                                             <label for="kdJabatan">Kode Jabatan</label>
-                                            <input type="text" class="form-control" name="kdJabatan" placeholder="Masukkan kode jabatan" value="">
+                                            <input type="text"  required class="form-control" name="kdJabatan" placeholder="Masukkan kode jabatan" value="">
                                         </div>
                                     </div>
                                     <div  class="col-md-12">
                                         <div class="form-group">
                                             <label for="nmJabatan">Nama Jabatan</label>
-                                            <input type="text" class="form-control" name="nmJabatan" placeholder="Masukan nama jabatan" value="">
+                                            <input type="text" required class="form-control" name="nmJabatan" placeholder="Masukan nama jabatan" value="">
                                         </div>
                                     </div>
                                 </div>

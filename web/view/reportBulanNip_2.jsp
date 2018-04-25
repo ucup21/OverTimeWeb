@@ -21,51 +21,34 @@
         <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
         <link rel="stylesheet" href="../assets/css/lib/datatable/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="../assets/scss/style.css">
-        <title>Jenis Lembur</title>
+        <title>Laporan Lembur Pegawai</title>
     </head>
     <body>
-         <% 
+        <%
             if (session.getAttribute("login") == null) {
                 response.sendRedirect("../login.jsp");
             }
-            
+
         %>
         <aside id="left-panel" class="left-panel">
             <nav class="navbar navbar-expand-sm navbar-default">
 
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="../homeServlet">Over-Time</a>
-                    <a class="navbar-brand hidden" href="../homeServlet">O</a>
+                    <a class="navbar-brand" href="../homeServletManager">Over-Time</a>
+                    <a class="navbar-brand hidden" href="../homeServletManager">O</a>
                 </div>
 
                 <div id="main-menu" class="main-menu collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="../homeServlet"> <i class="menu-icon ti-home"></i>Home </a>
-                        </li>
-                        <h3 class="menu-title">Master</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="../jabatanServlet"> <i class="menu-icon ti-bag"></i>Jabatan </a>
-                        </li>
-                        <li>
-                            <a href="../pegawaiServlet"> <i class="menu-icon ti-user"></i>Pegawai </a>
-                        </li>
-                        <li class="active">
-                            <a href="../jenisLemburServlet"> <i class="menu-icon ti-agenda"></i>Jenis Lembur </a>
-                        </li>
-                        <li>
-                            <a href="detailJabatanLemburServlet"> <i class="menu-icon ti-clipboard"></i>Detail Jenis Lembur </a>
-                        </li>
-                        <h3 class="menu-title">Transaksi</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="../detailLemburServlet"> <i class="menu-icon ti-write"></i>Detail Lembur Pegawai </a>
+                            <a href="../homeServletManager"> <i class="menu-icon ti-home"></i>Home </a>
                         </li>
                         <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
                         <li>
-                            <a href="report.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
+                            <a href="report_1.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
                         </li>
                         <li class="active">
-                            <a href="reportBulanNip.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
+                            <a href="reportBulanNip_2.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -73,7 +56,7 @@
         </aside><!-- /#left-panel -->
 
         <div id="right-panel" class="right-panel">
-
+            <% String loginUsername = (String) session.getAttribute("login");%>
             <!-- Header-->
             <header id="header" class="header">
 
@@ -88,17 +71,61 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <img class="user-avatar rounded-circle" src="../images/admin.jpg" alt="User Avatar">
                             </a>
 
                             <div class="user-menu dropdown-menu">
-
-                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                                <a class="nav-link" href="" data-toggle="modal" data-target="#editPassword<%= loginUsername%>"><i class="fa fa- user"></i>Ubah Password</a>
+                                <a class="nav-link" href="../logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
                             </div>
 
                         </div>
                     </div>
                 </div>
+
+
+                <div class="modal fade" id="editPassword<%= loginUsername%>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Ganti Password</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="ubahPasswordManagerServlet" method="POST">
+                                <div class="modal-body">
+                                    <input type="hidden"  required class="form-control" name="username" value="<%= loginUsername%>">
+
+                                    <div  class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Password Lama</label>
+                                            <input type="password"  required class="form-control" name="passwordLama" placeholder="Masukkan password lama" value="">
+                                        </div>
+                                    </div>
+                                    <div  class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Password Baru</label>
+                                            <input type="password" required class="form-control" name="passwordBaru" placeholder="Masukan password baru" value="">
+                                        </div>
+                                    </div>
+                                    <div  class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Konfirmasi Password Baru</label>
+                                            <input type="password" required class="form-control" name="konfirmasipasswordBaru" placeholder="Masukan konfirmasi password baru" value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Ubah </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </header><!-- /header -->
             <!-- Header-->
 
@@ -114,7 +141,7 @@
                     <div class="page-header float-right">
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
-                                <li><a href="../index.jsp">Home</a></li>
+                                <li><a href="../homeServletManager">Home</a></li>
                                 <li class="active">Laporan Lembur Pegawai</li>
                             </ol>
                         </div>

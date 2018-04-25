@@ -28,34 +28,33 @@
         <div class="sufee-login d-flex align-content-center flex-wrap">
             <div class="container">
                 <div class="login-content">
-                    <div class="login-logo">
-                        <h3 font-color="white">Over-Time</h3>
-                    </div>
 
                     <div class="login-form">
+                        <div class="login-logo">
+                            <h3 font-color="white">Over-Time</h3>
+                        </div>
 
                         <form action="loginServlet" method="POST">
                             <%if (session.getAttribute("Berhasil") != null) {%>
                             <div class="alert alert-success" role="alert">
                                 <%out.print(session.getAttribute("Berhasil") + "<br>");
-                                session.removeAttribute("Berhasil");%>
+                                    session.removeAttribute("Berhasil");%>
                             </div>
                             <%} else if (session.getAttribute("Gagal") != null) {%>                                    
                             <div class="alert alert-danger" role="alert">
                                 <%out.print(session.getAttribute("Gagal") + "<br>");
-                                session.removeAttribute("Gagal");%>
+                                    session.removeAttribute("Gagal");%>
                             </div>
                             <%}%>     
                             <div class="form-group">
                                 <label>Username</label>
-                                <input type="text" name="userName" class="form-control" placeholder="Username">
+                                <input type="text" name="userName" required="" class="form-control" placeholder="Username">
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" name="pass" class="form-control" placeholder="Password">
+                                <input type="password" name="pass" required="" class="form-control" placeholder="Password">
                             </div>
                             <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
-                            
                         </form>
                     </div>
                 </div>

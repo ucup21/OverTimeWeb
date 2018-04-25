@@ -5,10 +5,8 @@
  */
 package controller;
 
-import dao.DetailLemburDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hp
  */
-@WebServlet(name = "DetailLemburServlet", urlPatterns = {"/detailLemburServlet"})
-public class DetailLemburServlet extends HttpServlet {
+@WebServlet(name = "HomeServletManager", urlPatterns = {"/homeServletManager"})
+public class HomeServletManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,19 +36,11 @@ public class DetailLemburServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
-        DetailLemburDAO aO = new DetailLemburDAO();
         try (PrintWriter out = response.getWriter()) {
             if (session.getAttribute("login") == null) {
                 response.sendRedirect("login.jsp");
             }
-            List<Object> datas = new DetailLemburDAO().getAll();
-//            if (session.getAttribute("pesan") != null) {
-//                out.print(session.getAttribute("pesan") + "<br>");
-//                session.removeAttribute("pesan");
-//            }
-            session.setAttribute("autoID", aO.getAutoID());
-            session.setAttribute("dataDetailLembur", datas);
-            dispatcher = request.getRequestDispatcher("view/detailLembur.jsp");
+            dispatcher = request.getRequestDispatcher("indexManager.jsp");
             dispatcher.include(request, response);
         }
     }

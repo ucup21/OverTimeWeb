@@ -21,10 +21,15 @@
         <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
         <link rel="stylesheet" href="../assets/css/lib/datatable/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="../assets/scss/style.css">
-        <title>Jenis Lembur</title>
+        <title>Laporan Lembur Bulanan</title>
     </head>
     <body>
-        <% String autoId = (String) session.getAttribute("autoID");%>
+         <% 
+            if (session.getAttribute("login") == null) {
+                response.sendRedirect("../login.jsp");
+            }
+            
+        %>
         <aside id="left-panel" class="left-panel">
             <nav class="navbar navbar-expand-sm navbar-default">
 
@@ -80,8 +85,17 @@
                     </div>
 
                     <div class="col-sm-5">
+
                         <div class="user-area dropdown float-right">
-                            <a href="../logoutServlet"> Logout </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            </a>
+
+                            <div class="user-menu dropdown-menu">
+
+                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -119,9 +133,9 @@
                                 </div>
 
                                 <br>
-                                
-                                    <form action="cetakPdf.jsp" target="_blank">
-                                        <div class="col-md-6">
+
+                                <form action="cetakPdf.jsp" target="_blank">
+                                    <div class="col-md-6">
                                         <select name="cmbBulan" class="form-control">
                                             <option value="">Pilih Bulan</option>
                                             <option value="-01-">Januari</option>
@@ -137,13 +151,13 @@
                                             <option value="-11-">November</option>
                                             <option value="-12-">Desember</option>
                                         </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
+                                    </div>
+                                </form>
                                 <br>
-                                
+
                             </div>
                         </div>
                     </div>

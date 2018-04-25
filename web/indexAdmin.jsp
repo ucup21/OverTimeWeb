@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Apr 24, 2018, 6:04:52 AM
+    Document   : indexAfter
+    Created on : Apr 24, 2018, 5:38:04 AM
     Author     : hp
 --%>
 
@@ -9,7 +9,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Over-Time</title>
         <link rel="apple-touch-icon" href="apple-icon.png">
         <link rel="shortcut icon" href="favicon.ico">
 
@@ -21,11 +20,9 @@
         <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
         <link rel="stylesheet" href="assets/scss/style.css">
         <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
-
+        <title>Over-Time</title>
     </head>
     <body>
-        <!-- Left Panel -->
-
         <aside id="left-panel" class="left-panel">
             <nav class="navbar navbar-expand-sm navbar-default">
 
@@ -71,7 +68,7 @@
         <!-- Right Panel -->
 
         <div id="right-panel" class="right-panel">
-
+            <% String loginUsername = (String) session.getAttribute("login");%>
             <!-- Header-->
             <header id="header" class="header">
 
@@ -83,50 +80,36 @@
                     </div>
 
                     <div class="col-sm-5">
+
                         <div class="user-area dropdown float-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            </a>
+
+                            <div class="user-menu dropdown-menu">
+                                
+                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                            </div>
 
                         </div>
-
-
-
                     </div>
                 </div>
 
             </header><!-- /header -->
-            <div class="sufee-login d-flex align-content-center flex-wrap">
-                <div class="container">
-                    <div class="login-content">
-                        <div class="login-logo">
-                            <h3 font-color="white">Over-Time</h3>
-                        </div>
 
-                        <div class="login-form">
 
-                            <form action="loginServlet" method="POST">
-                                <%if (session.getAttribute("Berhasil") != null) {%>
-                                <div class="alert alert-success" role="alert">
-                                    <%out.print(session.getAttribute("Berhasil") + "<br>");
-                                    session.removeAttribute("Berhasil");%>
-                                </div>
-                                <%} else if (session.getAttribute("Gagal") != null) {%>                                    
-                                <div class="alert alert-danger" role="alert">
-                                    <%out.print(session.getAttribute("Gagal") + "<br>");
-                                    session.removeAttribute("Gagal");%>
-                                </div>
-                                <%}%> 
-                                <div class="form-group">
-                                    <label>Username</label>
-                                    <input type="text" name="userName" class="form-control" placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" name="pass" class="form-control" placeholder="Password">
-                                </div>
-                                <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
-
-                            </form>
-                        </div>
-                    </div>
+            <div class="content mt-3">
+                <div class="animated fadeIn">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h1 align="center">~ Selamat Datang Di Web Over-Time ~</h1>
                 </div>
             </div>
         </div><!-- /#right-panel -->
@@ -167,6 +150,5 @@
                 });
             })(jQuery);
         </script>
-
     </body>
 </html>
