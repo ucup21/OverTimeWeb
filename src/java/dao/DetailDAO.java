@@ -17,7 +17,8 @@ import tools.HibernateUtil;
  *
  * @author hp
  */
-public class DetailDAO implements InterfaceDAO{
+public class DetailDAO implements InterfaceDAO {
+
     public Session session;
     private SessionFactory factory;
     public Transaction transaction;
@@ -27,7 +28,6 @@ public class DetailDAO implements InterfaceDAO{
     public DetailDAO() {
         this.fdao = new FunctionsDAO(HibernateUtil.getSessionFactory());
     }
-    
 
     public boolean insert(Object object) {
         return fdao.insert(object);
@@ -39,7 +39,6 @@ public class DetailDAO implements InterfaceDAO{
      * @param object Object berupa class PegawaiMII yang di Delete
      * @return fdao memanggil fungsi delete pada class fdao
      */
-    
     public boolean delete(Object object) {
         return fdao.delete(Detail.class, (Serializable) object);
     }
@@ -63,7 +62,7 @@ public class DetailDAO implements InterfaceDAO{
     /**
      * fungsi insert untuk mengedit data pada tabel Detail
      *
-     * @param object 
+     * @param object
      * @return fdao memangil fungsi insert pada class fdao
      */
     public boolean update(Object object) {
@@ -73,9 +72,13 @@ public class DetailDAO implements InterfaceDAO{
     public List<Object> getAll() {
         return fdao.getAll("FROM Detail order by jabatan");
     }
-    
-     public Object getById(String Id, String Ids) {
+
+    public Object getById(String Id, String Ids) {
         return fdao.getById("FROM Detail where kd_jabatan='" + Id + "' AND kd_lembur='" + Ids + "'");
     }
-    
+
+    public Long upah(String Id, String Ids) {
+        return new Long(fdao.getById("select tarif FROM Detail where kd_jabatan='" + Id + "' AND kd_lembur='" + Ids + "'").toString());
+    }
+
 }

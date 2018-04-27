@@ -40,8 +40,11 @@ public class PegawaiServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         PegawaiMiiDAO miiDAO = new PegawaiMiiDAO();
         try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("login")==null) {
-                response.sendRedirect("login.jsp");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            if (session.getAttribute("login") == null) {
+//                response.sendRedirect("login.jsp");
+                dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
             }
             List<Object> datas = new PegawaiMiiDAO().getAll();
 //            if (session.getAttribute("pesan") != null) {

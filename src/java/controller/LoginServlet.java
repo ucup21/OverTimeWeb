@@ -126,7 +126,7 @@ public class LoginServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String send = "", pesan = "", hasil = "";
 //            booSlean login = managementDAO.login(category, Username, Pass);
-
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (Username.equals("") || Pass.equals("")) {
                 pesan = "Username dan Password Harus Terisi";
                 hasil = "Gagal";
@@ -143,18 +143,32 @@ public class LoginServlet extends HttpServlet {
                             pesan = "berhasil login" + Username;
                             hasil = "Berhasil";
                             send = "indexAdmin.jsp";
-                        }else if (u.getAkses().equals("manager")) {
+                            PegawaiMii mii = new PegawaiMii();
+                            mii.setNama(u.getNama());
+                            session.setAttribute("nama", mii);
+                        } else if (u.getAkses().equals("manager")) {
                             pesan = "berhasil login" + Username;
                             hasil = "Berhasil";
                             send = "indexManager.jsp";
-                        } else if(u.getAkses().equals("pegawai")) {
+                            PegawaiMii mii2 = new PegawaiMii();
+                            mii2.setNama(u.getNama());
+                            session.setAttribute("nama", mii2);
+                        } else if (u.getAkses().equals("pegawai")) {
                             pesan = "berhasil login" + Username;
                             hasil = "Berhasil";
                             send = "indexUser.jsp";
+                            PegawaiMii mii3 = new PegawaiMii();
+                            mii3.setNama(u.getNama());
+                            session.setAttribute("nama", mii3);
                         }
                     }
                 }
+            }else if (session.getAttribute("login") == null) {
+//                response.sendRedirect("login.jsp");
+                dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
             }
+
             session.setAttribute("login", Username);
             session.setAttribute(hasil, pesan);
             dispatcher = request.getRequestDispatcher(send);

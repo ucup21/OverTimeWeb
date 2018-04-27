@@ -61,5 +61,13 @@ public class DetailLemburDAO implements InterfaceDAO {
     {
         return (String) fdao.getById("SELECT CONCAT('DL',LPAD((TO_NUMBER(SUBSTR(MAX(KD_DETAIL_LEMBUR),3,3))+1),3,'0')) FROM DetailLembur");
     }
+    
+    public List<Object> report(String category, String bulan) {
+        return fdao.getAll("FROM DetailLembur WHERE " + category + " LIKE '%" + bulan + "%'");
+    }
+    
+    public List<Object> reportNip(String category, String bulan, String nip) {
+        return fdao.getAll("FROM DetailLembur WHERE " + category + " LIKE '%" + bulan + "%' AND nip = "+nip);
+    }
 
 }

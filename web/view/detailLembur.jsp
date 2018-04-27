@@ -75,6 +75,8 @@
         <div id="right-panel" class="right-panel">
 
             <!-- Header-->
+            
+            
             <header id="header" class="header">
 
                 <div class="header-menu">
@@ -88,7 +90,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -176,8 +180,8 @@
                                         <td><%= dl.getNip().getNama()%></td>
                                         <td><%= date%></td>
                                         <td width="80px">
-                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= dl.getKdDetailLembur()%>"></button>
-                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= dl.getKdDetailLembur()%>"></button></center></td>
+                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= dl.getKdDetailLembur()%>" title="Edit"></button>
+                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= dl.getKdDetailLembur()%>" title="Delete"></button></center></td>
 
                                     </tr>
                                     <% i++;

@@ -4,6 +4,7 @@
     Author     : hp
 --%>
 
+<%@page import="entities.PegawaiMii"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,12 +37,9 @@
                         <li class="active">
                             <a href="homeServletUser"> <i class="menu-icon ti-home"></i>Home </a>
                         </li>
-                        <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
+                        <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->                     
                         <li>
-                            <a href="view/report_1.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
-                        </li>                                  
-                        <li>
-                            <a href="view/reportBulanNip_2.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
+                            <a href="view/report_1.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -68,7 +66,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas = session.getAttribute("nama");
+                                PegawaiMii mii = (PegawaiMii) datas; %>
+                                <button class="btn btn-dark"><%= mii.getNama()%></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">

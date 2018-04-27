@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5f2b8e9e-d140-46e0-a022-027143680215">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="27"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="bulan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -20,7 +20,7 @@ FROM
      INNER JOIN "HR"."DETAIL_LEMBUR" DETAIL_LEMBUR ON JENIS_LEMBUR."KD_LEMBUR" = DETAIL_LEMBUR."KD_LEMBUR"
      INNER JOIN "HR"."PEGAWAI_MII" PEGAWAI_MII ON DETAIL_LEMBUR."NIP" = PEGAWAI_MII."NIP"
      AND JABATAN."KD_JABATAN" = PEGAWAI_MII."KD_JABATAN" 
-AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
+AND TGL_LEMBUR LIKE '%$P!{bulan}%' ORDER BY PEGAWAI_MII."NIP"]]>
 	</queryString>
 	<field name="DETAIL_TARIF" class="java.math.BigDecimal"/>
 	<field name="DETAIL_LEMBUR_TGL_LEMBUR" class="java.sql.Timestamp"/>
@@ -35,28 +35,47 @@ AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="95" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="802" height="79" backcolor="#006699" uuid="cb02faa8-6853-4679-a5e8-29e4457536a7"/>
+				<reportElement mode="Opaque" x="1" y="0" width="802" height="95" backcolor="#999999" uuid="cb02faa8-6853-4679-a5e8-29e4457536a7"/>
 				<staticText>
-					<reportElement x="24" y="16" width="424" height="43" forecolor="#FFFFFF" uuid="f139b5f7-f6d6-4f4e-b73f-b5cf95b78363"/>
+					<reportElement x="24" y="2" width="424" height="43" forecolor="#FFFFFF" uuid="f139b5f7-f6d6-4f4e-b73f-b5cf95b78363"/>
 					<textElement>
 						<font size="26" isBold="true"/>
 					</textElement>
 					<text><![CDATA[LAPORAN LEMBUR PEGAWAI]]></text>
 				</staticText>
-				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement x="605" y="59" width="133" height="20" forecolor="#FFFFFF" uuid="06428c47-f884-45dd-ae48-6e833414815e"/>
+				<textField>
+					<reportElement x="72" y="54" width="100" height="20" forecolor="#FFFFFF" uuid="68e6af18-413a-4867-bf55-2decd1f1e3cc"/>
 					<textElement>
-						<font size="14"/>
+						<font size="14" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(new java.util.Date())]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("MMMM", new java.util.Locale("id")).format($F{DETAIL_LEMBUR_TGL_LEMBUR})]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="25" y="54" width="51" height="20" forecolor="#FFFFFF" uuid="e07b1cb0-906a-4553-a852-924dd0873275"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Bulan]]></text>
+				</staticText>
+				<image>
+					<reportElement x="649" y="6" width="151" height="83" uuid="7c09395c-3373-4348-bd05-82858beb3c3a"/>
+					<imageExpression><![CDATA["E:\\MII\\tugas\\Tugas Mingguan Overtime\\Tugas Web\\OverTimeWeb2\\web\\view\\image\\logo_metrodata.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="663" y="7" width="133" height="20" forecolor="#000000" uuid="06428c47-f884-45dd-ae48-6e833414815e"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
@@ -105,7 +124,7 @@ AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="6" y="0" width="100" height="20" uuid="f702a161-4c7a-4164-8ac4-6e63e6f67488"/>
 				<textElement>
@@ -139,11 +158,11 @@ AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_LAMA_LEMBUR}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_LAMA_LEMBUR}+" jam"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="692" y="0" width="100" height="20" uuid="029fcd53-8f3d-47ec-8bcc-2d16636d1ac1"/>
-				<textElement>
+				<reportElement x="650" y="0" width="100" height="20" uuid="029fcd53-8f3d-47ec-8bcc-2d16636d1ac1"/>
+				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DETAIL_TARIF}]]></textFieldExpression>
@@ -159,14 +178,14 @@ AND TGL_LEMBUR LIKE '%$P!{bulan}%']]>
 	<summary>
 		<band height="42" splitType="Stretch">
 			<textField>
-				<reportElement x="692" y="0" width="107" height="20" backcolor="#CCCCCC" uuid="1b88cab8-a098-470f-ab1f-49237422a856"/>
-				<textElement markup="none">
+				<reportElement x="642" y="11" width="107" height="20" backcolor="#CCCCCC" uuid="1b88cab8-a098-470f-ab1f-49237422a856"/>
+				<textElement textAlignment="Right" markup="none">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{DETAIL_TARIF_1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="34" y="0" width="644" height="20" forecolor="#006699" backcolor="#FFFFFF" uuid="7729ee92-77b9-4d12-ba74-f04bb4806c96"/>
+				<reportElement mode="Opaque" x="164" y="11" width="474" height="20" forecolor="#006699" backcolor="#FFFFFF" uuid="7729ee92-77b9-4d12-ba74-f04bb4806c96"/>
 				<textElement textAlignment="Right">
 					<font size="14" isBold="true"/>
 				</textElement>

@@ -88,7 +88,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                    PegawaiMii mii10 = (PegawaiMii) datas10;%>
+                                <button class="btn btn-dark"><%= mii10.getNama()%></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -182,8 +184,8 @@
                                         <td><%= mii.getTmptLahir()%></td>
                                         <td><%= date%></td>
                                         <td width="80px">
-                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= mii.getNip()%>"></button>
-                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= mii.getNip()%>"></button></center></td>
+                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= mii.getNip()%>" title="Edit"></button>
+                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= mii.getNip()%>" title="Delete"></button></center></td>
 
                                     </tr>
                                     <% }%>
@@ -332,7 +334,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="pegawaiInsert" method="POST">
+                            <form action="pegawaiUpdate" method="POST">
                                 <div class="modal-body"><div  class="col-md-12">
                                         <div class="form-group">
                                             <label for="nip">Nomor Induk Pegawai</label>
@@ -405,6 +407,7 @@
                                             <input type="text" class="form-control" name="akses" value="<%= mii.getAkses()%>">
                                         </div>
                                     </div>
+                                    <input type="hidden" class="form-control" name="password" value="<%= mii.getPassword()%>">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -434,8 +437,18 @@
         <script src="assets/js/lib/data-table/datatables-init.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#bootstrap-data-table-export').DataTable();
+            $('#bootstrap-data-table-export').DataTable();
             });
+        </script>
+        <script type="text/javascript">
+            #dhtmltooltip{
+            position: absolute;
+            width: 150px;
+            border: 2px solid black;
+            padding: 2px;
+            background - color: lightyellow;
+            visibility: hidden;
+            z - index: 100;
         </script>
     </body>
 </html>

@@ -4,6 +4,7 @@
     Author     : hp
 --%>
 
+<%@page import="entities.PegawaiMii"%>
 <%@page import="entities.Jabatan"%>
 <%@page import="dao.JabatanDAO"%>
 <%@page import="dao.JenisLemburDAO"%>
@@ -85,7 +86,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -169,8 +172,8 @@
                                         <td><center><%= detail.getJenisLembur().getLamaLembur()%></center></td>
                                         <td><center><%= detail.getTarif()%></center></td>
                                         <td width="80px">
-                                        <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= detail.getJabatan().getKdJabatan()%><%=  detail.getJenisLembur().getKdLembur()%>"></button>
-                                            <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= detail.getJabatan().getKdJabatan()%><%=  detail.getJenisLembur().getKdLembur()%>"></button></center></td>
+                                        <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= detail.getJabatan().getKdJabatan()%><%=  detail.getJenisLembur().getKdLembur()%>" title="Edit"></button>
+                                            <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= detail.getJabatan().getKdJabatan()%><%=  detail.getJenisLembur().getKdLembur()%>" title="Delete"></button></center></td>
                                         </tr>
                                         <% }%>
                                 </table>

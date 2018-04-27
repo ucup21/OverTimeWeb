@@ -40,9 +40,13 @@ public class JenisLemburServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         JenisLemburDAO jldao = new JenisLemburDAO();
         try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("login") == null) {
-                response.sendRedirect("login.jsp");
-            }
+//            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//            if (session.getAttribute("login") == null) {
+////                response.sendRedirect("login.jsp");
+//                dispatcher = request.getRequestDispatcher("login.jsp");
+//                dispatcher.forward(request, response);
+//            }response.sendRedirect("login.jsp");
+            
             List<Object> datas = new JenisLemburDAO().getAll();
 //            if (session.getAttribute("pesan") != null) {
 //                out.print(session.getAttribute("pesan") + "<br>");

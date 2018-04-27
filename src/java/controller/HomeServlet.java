@@ -37,10 +37,13 @@ public class HomeServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("login") == null) {
-                response.sendRedirect("login.jsp");
+//                response.sendRedirect("login.jsp");
+                dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
             }
-            dispatcher = request.getRequestDispatcher("indexAfter.jsp");
+            dispatcher = request.getRequestDispatcher("indexAdmin.jsp");
             dispatcher.include(request, response);
         }
     }

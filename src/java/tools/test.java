@@ -6,6 +6,7 @@
 package tools;
 
 import dao.DetailDAO;
+import dao.DetailLemburDAO;
 import dao.JenisLemburDAO;
 import dao.PegawaiMiiDAO;
 import dao.UserManagementDAO;
@@ -24,8 +25,10 @@ public class test {
 //System.out.println(new UserManagementDAO().search("username", "sas"));
 //        PegawaiMii mii = new PegawaiMii();
 //        System.out.println(new PegawaisMiiDAO().insert(Long.valueOf("0"), "SA", "Linda Angelaa", "Perempuan", "Jakbat", "01-01-1995", "Jakbat", "12345", "admin", false));
-PegawaiMiiDAO dAO = new PegawaiMiiDAO();
-        PegawaiMii mii = (PegawaiMii) dAO.getById("14305");
-        System.out.println(mii);
+//PegawaiMiiDAO dAO = new PegawaiMiiDAO();
+//        PegawaiMii mii = (PegawaiMii) dAO.getById("14305");
+//        System.out.println(mii);
+
+//        System.out.println(new DetailLemburDAO().reportNip("tgl_lembur", "-02-", Long.valueOf(14001)));
     }
 }

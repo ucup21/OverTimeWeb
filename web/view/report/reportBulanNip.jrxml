@@ -73,10 +73,12 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
+     DETAIL."TARIF" AS DETAIL_TARIF,
      DETAIL_LEMBUR."TGL_LEMBUR" AS DETAIL_LEMBUR_TGL_LEMBUR,
+     JABATAN."NAMA_JABATAN" AS JABATAN_NAMA_JABATAN,
      JENIS_LEMBUR."LAMA_LEMBUR" AS JENIS_LEMBUR_LAMA_LEMBUR,
-     PEGAWAI_MII."NAMA" AS PEGAWAI_MII_NAMA,
-     SUM(DETAIL."TARIF") AS DETAIL_TARIF
+     PEGAWAI_MII."NIP" AS PEGAWAI_MII_NIP,
+     PEGAWAI_MII."NAMA" AS PEGAWAI_MII_NAMA
 FROM
      "HR"."JABATAN" JABATAN INNER JOIN "HR"."DETAIL" DETAIL ON JABATAN."KD_JABATAN" = DETAIL."KD_JABATAN"
      INNER JOIN "HR"."JENIS_LEMBUR" JENIS_LEMBUR ON DETAIL."KD_LEMBUR" = JENIS_LEMBUR."KD_LEMBUR"
@@ -84,13 +86,14 @@ FROM
      INNER JOIN "HR"."PEGAWAI_MII" PEGAWAI_MII ON DETAIL_LEMBUR."NIP" = PEGAWAI_MII."NIP"
      AND JABATAN."KD_JABATAN" = PEGAWAI_MII."KD_JABATAN"
 AND DETAIL_LEMBUR."TGL_LEMBUR" LIKE '%$P!{bulan}%'
-AND PEGAWAI_MII."NIP" = $P{nip}
-GROUP BY KD_DETAIL_LEMBUR, TGL_LEMBUR, LAMA_LEMBUR, NAMA]]>
+AND PEGAWAI_MII."NIP" = $P{nip}]]>
 	</queryString>
-	<field name="DETAIL_LEMBUR_TGL_LEMBUR" class="java.sql.Timestamp"/>
-	<field name="JENIS_LEMBUR_LAMA_LEMBUR" class="java.math.BigDecimal"/>
-	<field name="PEGAWAI_MII_NAMA" class="java.lang.String"/>
 	<field name="DETAIL_TARIF" class="java.math.BigDecimal"/>
+	<field name="DETAIL_LEMBUR_TGL_LEMBUR" class="java.sql.Timestamp"/>
+	<field name="JABATAN_NAMA_JABATAN" class="java.lang.String"/>
+	<field name="JENIS_LEMBUR_LAMA_LEMBUR" class="java.math.BigDecimal"/>
+	<field name="PEGAWAI_MII_NIP" class="java.math.BigDecimal"/>
+	<field name="PEGAWAI_MII_NAMA" class="java.lang.String"/>
 	<variable name="DETAIL_TARIF_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{DETAIL_TARIF}]]></variableExpression>
 	</variable>
@@ -100,7 +103,7 @@ GROUP BY KD_DETAIL_LEMBUR, TGL_LEMBUR, LAMA_LEMBUR, NAMA]]>
 	<title>
 		<band height="79" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" backcolor="#006699" uuid="5dbdee60-de3b-49c9-9a9e-b2cee784c828"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" backcolor="#999999" uuid="5dbdee60-de3b-49c9-9a9e-b2cee784c828"/>
 				<staticText>
 					<reportElement x="6" y="6" width="369" height="43" forecolor="#FFFFFF" uuid="2d04cc73-9480-44d3-93d4-7a02d3bb44b6"/>
 					<textElement>
@@ -109,76 +112,123 @@ GROUP BY KD_DETAIL_LEMBUR, TGL_LEMBUR, LAMA_LEMBUR, NAMA]]>
 					<text><![CDATA[LAPORAN LEMBUR PEGAWAI]]></text>
 				</staticText>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement x="431" y="59" width="113" height="20" forecolor="#FFFFFF" uuid="679b85a5-29bd-41f7-ad3f-864345877d55"/>
+					<reportElement x="6" y="57" width="113" height="20" forecolor="#FFFFFF" uuid="679b85a5-29bd-41f7-ad3f-864345877d55"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(new java.util.Date())]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="404" y="1" width="151" height="78" uuid="c2f1864e-cb2b-4371-8816-757c280c05d0"/>
+					<imageExpression><![CDATA["E:\\MII\\tugas\\Tugas Mingguan Overtime\\Tugas Web\\OverTimeWeb2\\web\\view\\image\\logo_metrodata.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="36" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="28" splitType="Stretch">
+		<band height="65" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="2" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="68f74201-efb6-4f18-b411-31c363fdb342"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
+				<reportElement x="6" y="5" width="100" height="20" uuid="e17c43c4-7b78-4a84-b8e7-551714ef9a83"/>
+				<textElement>
+					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Nama Pegawai]]></text>
+				<text><![CDATA[NIP		:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="140" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="ff7dd38c-09b9-4dbf-9e4e-3be8f1ea3dd7"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
+				<reportElement x="6" y="24" width="100" height="20" uuid="c51467f3-d7ee-47cb-b0a3-9fb76947cd4d"/>
+				<textElement>
+					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Tanggal Lembur]]></text>
+				<text><![CDATA[Nama		:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="278" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="07fa78ae-7493-4854-b282-85a70151fe31"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
+				<reportElement x="6" y="43" width="100" height="20" uuid="93859ea9-8eec-4fb8-a352-75f583c3197c"/>
+				<textElement>
+					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Lama Lembur]]></text>
+				<text><![CDATA[Jabatan	:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="416" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="614696b6-eae4-42fc-ab7a-c538d8adab1c"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
+				<reportElement x="344" y="5" width="99" height="20" uuid="d1e04064-2494-47ca-ae87-5dfc441786f1"/>
+				<textElement>
+					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Upah Lembur]]></text>
+				<text><![CDATA[Laporan Bulan :]]></text>
 			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="24" splitType="Stretch">
 			<textField>
-				<reportElement x="24" y="0" width="100" height="20" uuid="bd6de9f8-416c-4af6-b1b6-f167c73afdd6"/>
+				<reportElement x="107" y="24" width="100" height="20" uuid="bd6de9f8-416c-4af6-b1b6-f167c73afdd6"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PEGAWAI_MII_NAMA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="153" y="0" width="125" height="20" uuid="e5702a85-6a23-4c31-902a-f32e4feea2a6"/>
+				<reportElement x="107" y="5" width="100" height="20" uuid="ef83c046-02e2-49f3-a799-2f6d91c1964d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEGAWAI_MII_NIP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="43" width="100" height="20" uuid="79dec6e2-03af-4a9c-a790-430fae84ed50"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JABATAN_NAMA_JABATAN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="5" width="100" height="20" uuid="057fb26a-fb72-4d02-9975-098eccd7ef8d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMM", new java.util.Locale("id")).format($F{DETAIL_LEMBUR_TGL_LEMBUR})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="209" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="ff7dd38c-09b9-4dbf-9e4e-3be8f1ea3dd7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[                    Tanggal Lembur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="208" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="07fa78ae-7493-4854-b282-85a70151fe31"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lama Lembur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="345" y="0" width="210" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="614696b6-eae4-42fc-ab7a-c538d8adab1c"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[     Upah Lembur]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="83" y="0" width="125" height="20" uuid="e5702a85-6a23-4c31-902a-f32e4feea2a6"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format($F{DETAIL_LEMBUR_TGL_LEMBUR})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="300" y="0" width="100" height="20" uuid="80a577dc-703d-4c58-a3b6-5c92b3636876"/>
+				<reportElement x="230" y="0" width="100" height="20" uuid="80a577dc-703d-4c58-a3b6-5c92b3636876"/>
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_LAMA_LEMBUR}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_LAMA_LEMBUR}+" jam"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="444" y="0" width="100" height="20" uuid="ab52a011-8e46-4bf1-8d89-94357d1e3211"/>
-				<textElement>
+				<reportElement x="347" y="0" width="100" height="20" uuid="ab52a011-8e46-4bf1-8d89-94357d1e3211"/>
+				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DETAIL_TARIF}]]></textFieldExpression>
@@ -194,14 +244,14 @@ GROUP BY KD_DETAIL_LEMBUR, TGL_LEMBUR, LAMA_LEMBUR, NAMA]]>
 	<summary>
 		<band height="42" splitType="Stretch">
 			<textField>
-				<reportElement x="444" y="0" width="100" height="20" uuid="ba14a7cf-59c3-4488-999c-b9f0ef2ea987"/>
-				<textElement>
+				<reportElement x="346" y="12" width="100" height="20" uuid="ba14a7cf-59c3-4488-999c-b9f0ef2ea987"/>
+				<textElement textAlignment="Right">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{DETAIL_TARIF_1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="0" width="429" height="20" forecolor="#006699" backcolor="#FFFFFF" uuid="7b22a156-2d16-44a4-8d70-58f6dd32553a"/>
+				<reportElement x="41" y="12" width="299" height="20" forecolor="#006699" backcolor="#FFFFFF" uuid="7b22a156-2d16-44a4-8d70-58f6dd32553a"/>
 				<textElement textAlignment="Right">
 					<font size="12" isBold="true"/>
 				</textElement>

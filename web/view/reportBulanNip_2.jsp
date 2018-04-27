@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="entities.PegawaiMii"%>
 <%@page import="entities.JenisLembur"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -44,9 +45,6 @@
                             <a href="../homeServletManager"> <i class="menu-icon ti-home"></i>Home </a>
                         </li>
                         <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
-                        <li>
-                            <a href="report_1.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
-                        </li>
                         <li class="active">
                             <a href="reportBulanNip_2.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
                         </li>
@@ -71,7 +69,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="../images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -166,9 +166,9 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="nip" placeholder="Masukan NIP pegaewai">
+                                        <input type="text" class="form-control" name="nip" placeholder="Masukan NIP pegawai">
                                         <br>
-                                        <select name="cmbBulan" class="form-control">
+                                        <select name="cmbBulan" class="form-control" required>
                                             <option value="">Pilih Bulan</option>
                                             <option value="-01-">Januari</option>
                                             <option value="-02-">Februari</option>

@@ -4,6 +4,11 @@
     Author     : Asus
 --%>
 
+<%@page import="entities.PegawaiMii"%>
+<%@page import="dao.DetailDAO"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entities.DetailLembur"%>
+<%@page import="dao.DetailLemburDAO"%>
 <%@page import="entities.JenisLembur"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,8 +16,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="apple-touch-icon" href="apple-icon.png">
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="apple-touch-icon" href="../apple-icon.png">
+        <link rel="shortcut icon" href="../favicon.ico">
         <link rel="stylesheet" href="../assets/css/normalize.css">
         <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -21,7 +26,7 @@
         <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
         <link rel="stylesheet" href="../assets/css/lib/datatable/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="../assets/scss/style.css">
-        <title>Jenis Lembur</title>
+        <title>Laporan Lembur Bulanan</title>
     </head>
     <body>
          <% 
@@ -50,7 +55,7 @@
                         <li>
                             <a href="../pegawaiServlet"> <i class="menu-icon ti-user"></i>Pegawai </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="../jenisLemburServlet"> <i class="menu-icon ti-agenda"></i>Jenis Lembur </a>
                         </li>
                         <li>
@@ -61,10 +66,10 @@
                             <a href="../detailLemburServlet"> <i class="menu-icon ti-write"></i>Detail Lembur Pegawai </a>
                         </li>
                         <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
-                        <li>
+                        <li class="active">
                             <a href="report.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="reportBulanNip.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
                         </li>
                     </ul>
@@ -88,12 +93,14 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
 
-                                <a class="nav-link" href="logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
+                                <a class="nav-link" href="../logoutServlet"><i class="fa fa-power -off"></i>Logout</a>
                             </div>
 
                         </div>
@@ -115,7 +122,7 @@
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
                                 <li><a href="../index.jsp">Home</a></li>
-                                <li class="active">Laporan Lembur Pegawai</li>
+                                <li class="active">Laporan Lembur Bulanan</li>
                             </ol>
                         </div>
                     </div>
@@ -134,14 +141,10 @@
 
                                 <br>
 
-                                <form action="cetakPdfBulanNip.jsp" target="_blank">
-                                    <div class="col-md-3">
-
-                                    </div>
+                                <form action="" method="POST">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="nip" placeholder="Masukan NIP pegaewai">
-                                        <br>
-                                        <select name="cmbBulan" class="form-control">
+                                        <input type="text" name="nip" class="form-control"><br>
+                                        <select name="cmbBulan" class="form-control" required>
                                             <option value="">Pilih Bulan</option>
                                             <option value="-01-">Januari</option>
                                             <option value="-02-">Februari</option>
@@ -157,11 +160,65 @@
                                             <option value="-12-">Desember</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
+                                        <button class="btn-primary" type="submit" value="Cetak" target="_blank">Tampil</button>
                                     </div>
+                                </form>
+                                <br>
+
+                            </div>
+                            <div class="card">
+                                <br>
+                                <% String bulan = request.getParameter("cmbBulan");
+                                    String nipPegawai = request.getParameter("nip");
+
+                                %>
+                                <form action="cetakPdfBulanNip.jsp" target="_blank" method="POST">
+
+                                    <input type="hidden" value="<%= bulan%>" name="Bulan" />
                                     <div class="col-md-4">
-                                        </br>
-                                        <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
+                                        <input type="text" class="form-control" value="<%= nipPegawai%>" name="Nip" readonly=""/>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <br>
+                                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>No</th>
+                                                    <th>Kode Detail Lembur</th>
+                                                    <th>Lama Lembur</th>
+                                                    <th>Tanggal Lembur</th>
+                                                    <th>Upah</th>
+                                                </tr>
+                                            </thead>
+                                            <%
+        //                                        String bulan = request.getParameter("cmbBulan");
+                                                List<Object> datas = new DetailLemburDAO().reportNip("tgl_lembur", bulan, nipPegawai);
+        //                                        List<Object> datas = (List<Object>) session.getAttribute("dataDetailLembur");
+                                                int i = 1;
+                                                for (Object data : datas) {
+                                                    DetailLembur dl = (DetailLembur) data;
+                                                    String date = null;
+                                                    date = new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(dl.getTglLembur());
+                                                    Long upah = new DetailDAO().upah(dl.getNip().getKdJabatan().getKdJabatan(), dl.getKdLembur().getKdLembur());
+                                            %>
+
+                                            <tr>
+                                                <td><%= i%></td>
+                                                <td><%= dl.getKdDetailLembur()%></td>
+                                                <td><%= dl.getKdLembur().getLamaLembur()%>&nbsp;jam</td>
+                                                <td><%= date%></td>
+                                                <td><%= upah%></td>
+
+                                            </tr>
+                                            <% i++;
+                                        }%>
+                                        </table>
+
+                                        <div class="col-md-6">
+                                            <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
+                                        </div>
                                     </div>
                                 </form>
                                 <br>

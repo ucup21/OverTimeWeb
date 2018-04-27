@@ -68,7 +68,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <% Object datas = session.getAttribute("nama");
+                                PegawaiMii mii = (PegawaiMii) datas; %>
+                                <button class="btn btn-dark"><%= mii.getNama()%></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">

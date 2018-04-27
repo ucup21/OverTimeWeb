@@ -4,6 +4,11 @@
     Author     : Asus
 --%>
 
+<%@page import="entities.PegawaiMii"%>
+<%@page import="dao.DetailDAO"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entities.DetailLembur"%>
+<%@page import="dao.DetailLemburDAO"%>
 <%@page import="entities.JenisLembur"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -47,9 +52,6 @@
                         <li class="active">
                             <a href="report_1.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Bulanan </a>
                         </li>
-                        <li>
-                            <a href="reportBulanNip_2.jsp"> <i class="menu-icon ti-book"></i>Laporan Lembur Pegawai</a>
-                        </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
@@ -71,7 +73,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="../images/admin.jpg" alt="User Avatar">
+                                <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -160,10 +164,10 @@
                                 </div>
 
                                 <br>
-                                
-                                    <form action="cetakPdf.jsp" target="_blank">
-                                        <div class="col-md-6">
-                                        <select name="cmbBulan" class="form-control">
+
+                                <form action="" method="POST">
+                                    <div class="col-md-6">
+                                        <select name="cmbBulan" class="form-control" required>
                                             <option value="">Pilih Bulan</option>
                                             <option value="-01-">Januari</option>
                                             <option value="-02-">Februari</option>
@@ -178,13 +182,60 @@
                                             <option value="-11-">November</option>
                                             <option value="-12-">Desember</option>
                                         </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn-primary" type="submit" value="Cetak" target="_blank">Tampil</button>
+                                    </div>
+                                </form>
                                 <br>
-                                
+
+                            </div>
+                            <div class="card">
+                                <br>
+                                <% String bulan = request.getParameter("cmbBulan"); %>
+                                <form action="cetakPdf.jsp" target="_blank" method="POST">
+                                    <input type="hidden" value="<%= bulan %>" name="Bulan" />
+                                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                    
+                                            <th>No</th>
+                                            <th>Kode Detail Lembur</th>
+                                            <th>Lama Lembur</th>
+                                            <th>Nama Pegawai</th>
+                                            <th>Tanggal Lembur</th>
+                                            <th>Upah</th>
+                                        </tr>
+                                    </thead>
+                                    <%
+//                                        String bulan = request.getParameter("cmbBulan");
+                                        List<Object> datas = new DetailLemburDAO().report("tgl_lembur", bulan);
+//                                        List<Object> datas = (List<Object>) session.getAttribute("dataDetailLembur");
+                                        int i = 1;
+                                        for (Object data : datas) {
+                                            DetailLembur dl = (DetailLembur) data;
+                                            String date = null;
+                                            date = new SimpleDateFormat("EEEE,dd MMMM yyyy", new java.util.Locale("id")).format(dl.getTglLembur());
+                                            Long upah = new DetailDAO().upah(dl.getNip().getKdJabatan().getKdJabatan(), dl.getKdLembur().getKdLembur());
+                                    %>
+                                    <tr>
+                                        <td><%= i%></td>
+                                        <td><%= dl.getKdDetailLembur()%></td>
+                                        <td><%= dl.getKdLembur().getLamaLembur()%>&nbsp;jam</td>
+                                        <td><%= dl.getNip().getNama()%></td>
+                                        <td><%= date%></td>
+                                        <td><%= upah%></td>
+                                        
+                                    </tr>
+                                    <% i++;
+                                        }%>
+                                </table>
+                                    <div class="col-md-6">
+                                        <button class="btn-primary" type="submit" value="Cetak" target="_blank">Cetak</button>
+                                    </div>
+                                </form>
+                                <br>
+
                             </div>
                         </div>
                     </div>

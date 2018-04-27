@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="entities.PegawaiMii"%>
 <%@page import="entities.JenisLembur"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -81,7 +82,9 @@
 
                         <div class="user-area dropdown float-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                               <% Object datas10 = session.getAttribute("nama");
+                                PegawaiMii mii10 = (PegawaiMii) datas10; %>
+                                <button class="btn btn-dark"><%= mii10.getNama() %></button>
                             </a>
 
                             <div class="user-menu dropdown-menu">
@@ -161,10 +164,10 @@
                                     <tr>
                                         <td><%= i%></td>
                                         <td><%= j.getKdLembur()%></td>
-                                        <td><%= j.getLamaLembur()%></td>
+                                        <td><%= j.getLamaLembur()%>&nbsp;jam</td>
                                         <td width="80px">
-                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= j.getKdLembur()%>"></button>
-                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= j.getKdLembur()%>"></button></center></td>
+                                    <center><button class="btn btn-danger btn-sm ti-pencil-alt" data-toggle="modal" data-target="#Update<%= j.getKdLembur()%>" title="Edit"></button>
+                                        <button class="btn btn-danger btn-sm ti-close" data-toggle="modal" data-target="#Delete<%= j.getKdLembur()%>" title="Delete"></button></center></td>
                                     </tr>
                                     <% i++;
                                         }%>

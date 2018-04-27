@@ -29,10 +29,11 @@
 //                String user = "system";
 //                String password = "password";
                 HashMap parameter = new HashMap();
-                int nip = Integer.parseInt(request.getParameter("nip"));
-                String bulan = request.getParameter("cmbBulan");
+                int nip = Integer.parseInt(request.getParameter("Nip"));
+                String bulan = request.getParameter("Bulan");
                 parameter.put("nip", nip);
                 parameter.put("bulan", bulan);
+                
 //                Class.forName(driver);
 //                Connection conn = DriverManager.getConnection(konek, user, password);                
                 Connection connection = HibernateUtil.getSessionFactory().getSessionFactoryOptions().getServiceRegistry().getService(ConnectionProvider.class).getConnection();

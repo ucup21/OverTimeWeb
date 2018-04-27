@@ -30,7 +30,7 @@
 //                String password = "password";
                 HashMap parameter = new HashMap();
 //                int nip = Integer.parseInt(request.getParameter("nip"));
-                String bulan = request.getParameter("cmbBulan");
+                String bulan = request.getParameter("Bulan");
 //                parameter.put("nip", nip);
                 parameter.put("bulan", bulan);
 //                Class.forName(driver);

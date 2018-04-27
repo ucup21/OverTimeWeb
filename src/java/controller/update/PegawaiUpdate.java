@@ -48,6 +48,7 @@ public class PegawaiUpdate extends HttpServlet {
         String tglLahir = request.getParameter("tglLahir");
         String tmptLahir = request.getParameter("tmptLahir");
         String akses = request.getParameter("akses");
+        String password = request.getParameter("password");
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-mm-dd").parse(tglLahir);
@@ -65,7 +66,7 @@ public class PegawaiUpdate extends HttpServlet {
             mii.setJk(jk);
             mii.setAlamat(alamat);
             mii.setTglLahir(date);
-            mii.setPassword(BCrypt.hashpw(tglLahir, BCrypt.gensalt()));
+            mii.setPassword(password);
             mii.setAkses(akses);
             mii.setTmptLahir(tmptLahir);
             if (miiDAO.update(mii)) {
