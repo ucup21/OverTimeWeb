@@ -1,0 +1,104 @@
+==Table Detail==
+CREATE TABLE  "DETAIL" 
+   (	"KD_JABATAN" VARCHAR2(5) NOT NULL ENABLE, 
+	"KD_LEMBUR" VARCHAR2(5) NOT NULL ENABLE, 
+	"TARIF" NUMBER(10,0), 
+	 CONSTRAINT "DETAIL_PK" PRIMARY KEY ("KD_JABATAN", "KD_LEMBUR") ENABLE
+   ) ;ALTER TABLE  "DETAIL" ADD CONSTRAINT "DETAIL_FK" FOREIGN KEY ("KD_JABATAN")
+	  REFERENCES  "JABATAN" ("KD_JABATAN") ENABLE;ALTER TABLE  "DETAIL" ADD CONSTRAINT "KD_LEMBUR_FK" FOREIGN KEY ("KD_LEMBUR")
+	  REFERENCES  "JENIS_LEMBUR" ("KD_LEMBUR") ENABLE;
+
+INSERT ALL 
+ INTO detail VALUES ('PRES', 'LB001', 50000)
+ INTO detail VALUES ('PRES', 'LB002', 100000)
+ INTO detail VALUES ('PRES', 'LB003', 150000)
+ INTO detail VALUES ('PRES', 'LB004', 200000)
+ INTO detail VALUES ('SM', 'LB001', 30000)
+ INTO detail VALUES ('SM', 'LB002', 50000)
+ INTO detail VALUES ('SM', 'LB003', 90000)
+ INTO detail VALUES ('SM', 'LB004', 150000)
+ INTO detail VALUES ('ACC', 'LB001', 25000)
+ INTO detail VALUES ('ACC', 'LB002', 45000)
+ INTO detail VALUES ('ACC', 'LB003', 65000)
+ INTO detail VALUES ('ACC', 'LB004', 100000)
+ INTO detail VALUES ('PROG', 'LB001', 25000)
+ INTO detail VALUES ('PROG', 'LB002', 50000)
+ INTO detail VALUES ('PROG', 'LB003', 80000)
+ INTO detail VALUES ('PROG', 'LB004', 120000)
+SELECT * FROM DUAL;
+
+#####################################################################################
+
+==Table Detail_Lembur==
+CREATE TABLE  "DETAIL_LEMBUR" 
+   (	"KD_DETAIL_LEMBUR" VARCHAR2(5), 
+	"KD_LEMBUR" VARCHAR2(5) NOT NULL ENABLE, 
+	"NIP" NUMBER(10,0) NOT NULL ENABLE, 
+	"TGL_LEMBUR" DATE, 
+	 PRIMARY KEY ("KD_DETAIL_LEMBUR") ENABLE
+   ) ;ALTER TABLE  "DETAIL_LEMBUR" ADD CONSTRAINT "KD_LEMBURFK" FOREIGN KEY ("KD_LEMBUR")
+	  REFERENCES  "JENIS_LEMBUR" ("KD_LEMBUR") ENABLE;ALTER TABLE  "DETAIL_LEMBUR" ADD CONSTRAINT "NIP_FK" FOREIGN KEY ("NIP")
+	  REFERENCES  "PEGAWAI_MII" ("NIP") ENABLE;
+
+INSERT ALL
+ INTO detail_lembur VALUES ('DL001', 'LB003', 14002, '04-02-2018')
+ INTO detail_lembur VALUES ('DL002', 'LB001', 14002, '03-02-2018')
+ INTO detail_lembur VALUES ('DL003', 'LB002', 14003, '04-03-2018')
+ INTO detail_lembur VALUES ('DL004', 'LB004', 14004, '04-04-2018')
+SELECT * FROM DUAL;
+
+#####################################################################################
+
+==Table Jabatan==
+CREATE TABLE  "JABATAN" 
+   (	"KD_JABATAN" VARCHAR2(5) NOT NULL ENABLE, 
+	"NAMA_JABATAN" VARCHAR2(15), 
+	 PRIMARY KEY ("KD_JABATAN") ENABLE
+   ) ;
+
+INSERT ALL
+ INTO jabatan VALUES ('PRES','President')
+ INTO jabatan VALUES ('SM','Sales Manager')
+ INTO jabatan VALUES ('ACC','Accountant')
+ INTO jabatan VALUES ('PROG','Programmer')
+SELECT * FROM DUAL;
+
+#####################################################################################
+
+==Table Jenis_Lembur==
+CREATE TABLE  "JENIS_LEMBUR" 
+   (	"KD_LEMBUR" VARCHAR2(5) NOT NULL ENABLE, 
+	"LAMA_LEMBUR" NUMBER(2,0), 
+	 PRIMARY KEY ("KD_LEMBUR") ENABLE
+   ) ;
+
+INSERT ALL
+ INTO jenis_lembur VALUES ('LB001', 1)
+ INTO jenis_lembur VALUES ('LB002', 2)
+ INTO jenis_lembur VALUES ('LB003', 3)
+ INTO jenis_lembur VALUES ('LB004', 4)
+SELECT * FROM DUAL;
+
+#####################################################################################
+
+==Table Pegawai_Mii==
+CREATE TABLE  "PEGAWAI_MII" 
+   (	"NIP" NUMBER(10,0) NOT NULL ENABLE, 
+	"KD_JABATAN" VARCHAR2(5) NOT NULL ENABLE, 
+	"NAMA" VARCHAR2(20), 
+	"JK" VARCHAR2(10), 
+	"ALAMAT" VARCHAR2(30), 
+	"TGL_LAHIR" DATE, 
+	"TMPT_LAHIR" VARCHAR2(30), 
+	"PASSWORD" VARCHAR2(255), 
+	"AKSES" VARCHAR2(25), 
+	 CONSTRAINT "NIP_PK" PRIMARY KEY ("NIP") ENABLE
+   ) ;ALTER TABLE  "PEGAWAI_MII" ADD CONSTRAINT "KDJABATANFK" FOREIGN KEY ("KD_JABATAN")
+	  REFERENCES  "JABATAN" ("KD_JABATAN") ENABLE;
+
+INSERT ALL
+ INTO pegawai_mii VALUES (14001, 'SA', 'Dilan Milea', 'Perempuan', 'Jalan Taman Asri Lama', '01-01-1970', 'Batavia',NULL,'admin')
+ INTO pegawai_mii VALUES (14002, 'PROG', 'Fieny Fitri Dwi', 'Perempuan', 'Petukangan', '01-26-2018', 'Jakarta', NULL, 'pegawai')
+ INTO pegawai_mii VALUES (14003, 'PROG', 'Raka Saputra', 'Laki-Laki', 'Jakarta Barat', '08-29-1995', 'Semarang', NULL, 'pegawai)
+ INTO pegawai_mii VALUES (14004, 'PRES', 'Hilmi Nugraha', 'Laki-Laki', 'Jakarta Pusat', '04-06-1992', 'Jakarta Pusat', NULL, 'manajer')
+SELECT * FROM DUAL;
